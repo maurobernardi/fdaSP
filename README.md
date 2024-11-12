@@ -81,7 +81,11 @@ X                  <- infl.data[,3:74]
 X.std              <- cbind(rep(1, nrow(X)), scale(X))       
 y.std              <- scale(y)
 colnames(X.std)[1] <- "intercept"
+```
 
+#### Preliminary analysis
+
+``` r
 # correlation analysis
 data           <- cbind(y.std, X.std[,2:19])
 colnames(data) <- c("INFL", colnames(X.std)[2:19])
@@ -90,7 +94,7 @@ corrplot::corrplot(M, order = "AOE", method = "ellipse",
                    type = "upper", tl.cex = 0.5) 
 ```
 
-<img src="README_figs/README-unnamed-chunk-5-1.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-6-1.png" width="672" />
 
 ``` r
 # run lm
@@ -144,7 +148,7 @@ fit <- glmnet(x = as.matrix(X)[,1:18], y = y, standardize = TRUE, nlambda = 100)
 plot(fit)
 ```
 
-<img src="README_figs/README-unnamed-chunk-7-1.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-8-1.png" width="672" />
 
 ``` r
 
@@ -162,7 +166,7 @@ b   <- as.matrix(coef(fit))
 plot(fit.cv)
 ```
 
-<img src="README_figs/README-unnamed-chunk-7-2.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-8-2.png" width="672" />
 
 ``` r
 
@@ -244,7 +248,7 @@ plot(1:8, bic, col = "red", ylim = c(-17, 15), type = "l", lwd = 1.2)
 lines(1:8, cp, col = "blue",  lwd = 1.2)
 ```
 
-<img src="README_figs/README-unnamed-chunk-8-1.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-9-1.png" width="672" />
 
 ``` r
 ## Ridge Regression to create the adaptive weights 
@@ -298,7 +302,7 @@ cv.lasso <- cv.glmnet(x = as.matrix(X)[,1:18], y = y, family = "gaussian", alpha
 plot(cv.lasso)
 ```
 
-<img src="README_figs/README-unnamed-chunk-9-1.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-10-1.png" width="672" />
 
 ``` r
 plot(cv.lasso$glmnet.fit, xvar = "lambda", label = TRUE)
@@ -306,7 +310,7 @@ abline(v = log(cv.lasso$lambda.min))
 abline(v = log(cv.lasso$lambda.1se))
 ```
 
-<img src="README_figs/README-unnamed-chunk-9-2.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-10-2.png" width="672" />
 
 ``` r
 coef(cv.lasso, s = cv.lasso$lambda.1se)
@@ -344,36 +348,36 @@ X.data <- cbind(y, X[,1:18])
 bma1   <- bms(X.data = X.data, burn = 10000, iter = 50000, mprior = "uniform", 
               mcmc = "rev.jump", nmodel = 10, logfile = FALSE)
 ##                 PIP     Post Mean      Post SD Cond.Pos.Sign Idx
-## PPIACO_l1   0.99720  3.264392e-03 0.0009608753    1.00000000  13
-## GDPC1_l1    0.88472  1.196029e+00 0.5827948079    0.99979655   4
-## GASPRICE_l1 0.83936 -2.784771e-02 0.0161314895    0.00071483  18
-## EC_l1       0.79246 -5.819827e-01 0.3634166073    0.00045428   2
-## USPRIV_l1   0.20272 -7.437110e-02 0.2022913869    0.00009866   6
-## T10Y3MM_l1  0.19572 -6.591490e-02 0.2215382231    0.00000000   9
-## HOUST_l1    0.17966  1.482692e-03 0.0041580234    1.00000000   5
-## T10YFFM_l1  0.15660 -9.874924e-03 0.1839826870    0.14559387  10
-## M1SL_l1     0.14664  2.026562e-03 0.0075919381    0.80946536  11
-## DJIA_l1     0.13742  5.412202e-03 0.0190438430    1.00000000  14
-## MICH_l1     0.11544  3.397267e-02 0.1520608112    1.00000000  12
-## TB3MS_l1    0.10076  4.892613e-03 0.0394021907    0.85013894   7
-## NAPMPMI_l1  0.09658 -4.473129e-05 0.0002613657    0.03147650  15
-## OILPRICE_l1 0.09572  7.168865e-04 0.0065926166    0.78666945  17
-## UNRATE_l1   0.09548 -1.841846e-04 0.0468454667    0.50041894   1
-## PRFI_l1     0.09176 -2.787283e-03 0.0204909523    0.05732345   3
-## NAPMSDI_l1  0.08884 -1.935531e-05 0.0001748396    0.09140027  16
-## GS10_l1     0.08674 -4.494878e-05 0.0014362988    0.31934517   8
+## PPIACO_l1   0.99812  3.279987e-03 0.0009475567    1.00000000  13
+## GDPC1_l1    0.87686  1.185458e+00 0.5893093366    0.99938417   4
+## GASPRICE_l1 0.84888 -2.815847e-02 0.0159408575    0.00023560  18
+## EC_l1       0.77716 -5.706071e-01 0.3703908277    0.00090072   2
+## USPRIV_l1   0.20738 -8.267145e-02 0.2153552317    0.00125374   6
+## T10Y3MM_l1  0.19590 -6.955987e-02 0.2366921500    0.00000000   9
+## HOUST_l1    0.18452  1.534015e-03 0.0042450081    1.00000000   5
+## M1SL_l1     0.16672  2.438334e-03 0.0082296476    0.80170345  11
+## T10YFFM_l1  0.16212 -6.320770e-03 0.1982868250    0.17283494  10
+## DJIA_l1     0.13524  5.409657e-03 0.0190898786    1.00000000  14
+## MICH_l1     0.11894  3.415568e-02 0.1528200134    0.99983185  12
+## NAPMSDI_l1  0.10510 -2.084314e-05 0.0001892722    0.12540438  16
+## OILPRICE_l1 0.10064  8.587745e-04 0.0068052338    0.82988871  17
+## UNRATE_l1   0.09924 -3.909829e-04 0.0485124863    0.46453043   1
+## NAPMPMI_l1  0.09882 -4.431392e-05 0.0002625898    0.03703704  15
+## TB3MS_l1    0.09574  5.148381e-03 0.0387493201    0.89137247   7
+## GS10_l1     0.09318 -4.539528e-05 0.0014820638    0.29555699   8
+## PRFI_l1     0.09020 -2.794715e-03 0.0204076767    0.05498891   3
 ## 
 ## Mean no. regressors               Draws             Burnins                Time  No. models visited      Modelspace 2^K 
-##            "5.3038"             "50000"             "10000"     "1.129307 secs"             "13505"            "262144" 
+##            "5.3548"             "50000"             "10000"     "1.147024 secs"             "14130"            "262144" 
 ##           % visited         % Topmodels            Corr PMP            No. Obs.         Model Prior             g-Prior 
-##               "5.2"                "29"            "0.9959"               "125"       "uniform / 9"               "UIP" 
+##               "5.4"                "28"            "0.9940"               "125"       "uniform / 9"               "UIP" 
 ##     Shrinkage-Stats 
 ##         "Av=0.9921" 
 ## 
-## Time difference of 1.129307 secs
+## Time difference of 1.147024 secs
 ```
 
-<img src="README_figs/README-unnamed-chunk-10-1.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-11-1.png" width="672" />
 
 ``` r
 bma2   <- bms(X.data = X.data, burn = 10000, iter = 50000, mprior = "uniform", 
@@ -399,25 +403,25 @@ bma2   <- bms(X.data = X.data, burn = 10000, iter = 50000, mprior = "uniform",
 ## EC_l1       0.00000000  0.000000e+00 0.0000000000            NA   2
 ## 
 ## Mean no. regressors               Draws             Burnins                Time  No. models visited      Modelspace 2^K 
-##            "4.6570"             "50001"                 "0"     "0.829881 secs"             "50001"            "262144" 
+##            "4.6570"             "50001"                 "0"    "0.8201439 secs"             "50001"            "262144" 
 ##           % visited         % Topmodels            Corr PMP            No. Obs.         Model Prior             g-Prior 
 ##                "19"              "0.02"                "NA"               "125"       "uniform / 9"               "UIP" 
 ##     Shrinkage-Stats 
 ##         "Av=0.9921" 
 ## 
-## Time difference of 0.829881 secs
+## Time difference of 0.8201439 secs
 ```
 
-<img src="README_figs/README-unnamed-chunk-10-2.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-11-2.png" width="672" />
 
 ``` r
 
 # summary
 summary(bma1)
 ## Mean no. regressors               Draws             Burnins                Time  No. models visited      Modelspace 2^K 
-##            "5.3038"             "50000"             "10000"     "1.129307 secs"             "13505"            "262144" 
+##            "5.3548"             "50000"             "10000"     "1.147024 secs"             "14130"            "262144" 
 ##           % visited         % Topmodels            Corr PMP            No. Obs.         Model Prior             g-Prior 
-##               "5.2"                "29"            "0.9959"               "125"       "uniform / 9"               "UIP" 
+##               "5.4"                "28"            "0.9940"               "125"       "uniform / 9"               "UIP" 
 ##     Shrinkage-Stats 
 ##         "Av=0.9921"
 ```
@@ -453,16 +457,16 @@ coef(bma1, exact = TRUE, std.coefs = FALSE, order.by.pip = FALSE, include.consta
 # best models
 bma1$topmod
 ##       Marg.Log.Lik MCMC Freq
-## 14021     170.5815      5816
-## 14221     169.5927      1767
-## 16021     169.2789      1307
-## 14121     169.2464      1469
-## 14031     168.6989       755
-## 14821     168.6382       814
-## 34021     168.5470       682
-## 14029     168.5292       585
-## 050a1     168.5261       850
-## 14020     168.4559       544
+## 14021     170.5815      5280
+## 14221     169.5927      1670
+## 16021     169.2789      1260
+## 14121     169.2464      1405
+## 14031     168.6989       729
+## 14821     168.6382       723
+## 34021     168.5470       673
+## 14029     168.5292       562
+## 050a1     168.5261       986
+## 14020     168.4559       537
 ```
 
 ``` r
@@ -484,27 +488,27 @@ bma2$topmod
 
 #show binaries for 1st, 2nd and 3rd best model, without the model probs
 topmodels.bma(bma1[1:8])
-##                 14021      14221     16021      14121      14031      14821      34021      14029
-## UNRATE_l1   0.0000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 1.00000000 0.00000000
-## EC_l1       1.0000000 1.00000000 1.0000000 1.00000000 1.00000000 1.00000000 1.00000000 1.00000000
-## PRFI_l1     0.0000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## GDPC1_l1    1.0000000 1.00000000 1.0000000 1.00000000 1.00000000 1.00000000 1.00000000 1.00000000
-## HOUST_l1    0.0000000 0.00000000 1.0000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## USPRIV_l1   0.0000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## TB3MS_l1    0.0000000 0.00000000 0.0000000 0.00000000 0.00000000 1.00000000 0.00000000 0.00000000
-## GS10_l1     0.0000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## T10Y3MM_l1  0.0000000 1.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## T10YFFM_l1  0.0000000 0.00000000 0.0000000 1.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## M1SL_l1     0.0000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## MICH_l1     0.0000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## PPIACO_l1   1.0000000 1.00000000 1.0000000 1.00000000 1.00000000 1.00000000 1.00000000 1.00000000
-## DJIA_l1     0.0000000 0.00000000 0.0000000 0.00000000 1.00000000 0.00000000 0.00000000 0.00000000
-## NAPMPMI_l1  0.0000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.00000000 1.00000000
-## NAPMSDI_l1  0.0000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## OILPRICE_l1 0.0000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000
-## GASPRICE_l1 1.0000000 1.00000000 1.0000000 1.00000000 1.00000000 1.00000000 1.00000000 1.00000000
-## PMP (Exact) 0.1072066 0.03988331 0.0291429 0.02820919 0.01631649 0.01535493 0.01401724 0.01376937
-## PMP (MCMC)  0.1163200 0.03534000 0.0261400 0.02938000 0.01510000 0.01628000 0.01364000 0.01170000
+##                  14021      14221     16021      14121      14031      14821     34021      14029
+## UNRATE_l1   0.00000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 1.0000000 0.00000000
+## EC_l1       1.00000000 1.00000000 1.0000000 1.00000000 1.00000000 1.00000000 1.0000000 1.00000000
+## PRFI_l1     0.00000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.0000000 0.00000000
+## GDPC1_l1    1.00000000 1.00000000 1.0000000 1.00000000 1.00000000 1.00000000 1.0000000 1.00000000
+## HOUST_l1    0.00000000 0.00000000 1.0000000 0.00000000 0.00000000 0.00000000 0.0000000 0.00000000
+## USPRIV_l1   0.00000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.0000000 0.00000000
+## TB3MS_l1    0.00000000 0.00000000 0.0000000 0.00000000 0.00000000 1.00000000 0.0000000 0.00000000
+## GS10_l1     0.00000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.0000000 0.00000000
+## T10Y3MM_l1  0.00000000 1.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.0000000 0.00000000
+## T10YFFM_l1  0.00000000 0.00000000 0.0000000 1.00000000 0.00000000 0.00000000 0.0000000 0.00000000
+## M1SL_l1     0.00000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.0000000 0.00000000
+## MICH_l1     0.00000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.0000000 0.00000000
+## PPIACO_l1   1.00000000 1.00000000 1.0000000 1.00000000 1.00000000 1.00000000 1.0000000 1.00000000
+## DJIA_l1     0.00000000 0.00000000 0.0000000 0.00000000 1.00000000 0.00000000 0.0000000 0.00000000
+## NAPMPMI_l1  0.00000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.0000000 1.00000000
+## NAPMSDI_l1  0.00000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.0000000 0.00000000
+## OILPRICE_l1 0.00000000 0.00000000 0.0000000 0.00000000 0.00000000 0.00000000 0.0000000 0.00000000
+## GASPRICE_l1 1.00000000 1.00000000 1.0000000 1.00000000 1.00000000 1.00000000 1.0000000 1.00000000
+## PMP (Exact) 0.09995114 0.03718412 0.0271706 0.02630007 0.01521224 0.01431575 0.0130686 0.01283749
+## PMP (MCMC)  0.10560000 0.03340000 0.0252000 0.02810000 0.01458000 0.01446000 0.0134600 0.01124000
 ```
 
 ``` r
@@ -707,7 +711,7 @@ fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, nlambda = 100)
 plot(fit)
 ```
 
-<img src="README_figs/README-unnamed-chunk-11-1.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-12-1.png" width="672" />
 
 ``` r
 
@@ -801,7 +805,7 @@ b
 plot(fit.cv)
 ```
 
-<img src="README_figs/README-unnamed-chunk-11-2.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-12-2.png" width="672" />
 
 ``` r
 
@@ -815,6 +819,8 @@ rownames(b)[b != 0]
 ## By default, the selected variables are based on the largest value of
 ## lambda such that the cv-error is within 1 standard error of the minimum
 ```
+
+#### Using the fdaSP package
 
 ``` r
 # set lambdas
@@ -852,7 +858,7 @@ abline(v = log(mod_cv$lambda[which(mod_cv$lambda == mod_cv$lambda.min)]),
        col = "red", lwd = 1.0)
 ```
 
-<img src="README_figs/README-unnamed-chunk-13-1.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-14-1.png" width="672" />
 
 ``` r
 mod <- fdaSP::lmSP(X = as.matrix(X), y = y, 
@@ -874,7 +880,9 @@ par(mfrow=c(1,1))
 matplot(log(mod$lambda), mod$sp.coef.path, ty="l")
 ```
 
-<img src="README_figs/README-unnamed-chunk-15-1.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-16-1.png" width="672" />
+
+### Real estate dataset
 
 # References
 

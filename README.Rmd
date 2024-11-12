@@ -81,7 +81,11 @@ X                  <- infl.data[,3:74]
 X.std              <- cbind(rep(1, nrow(X)), scale(X))       
 y.std              <- scale(y)
 colnames(X.std)[1] <- "intercept"
+```
 
+#### Preliminary analysis
+
+```{r}
 # correlation analysis
 data           <- cbind(y.std, X.std[,2:19])
 colnames(data) <- c("INFL", colnames(X.std)[2:19])
@@ -89,7 +93,6 @@ M              <- cor(data)
 corrplot::corrplot(M, order = "AOE", method = "ellipse",
                    type = "upper", tl.cex = 0.5) 
 ```
-
 
 
 ```{r}
@@ -253,6 +256,12 @@ rownames(b)[b != 0]
 ## lambda such that the cv-error is within 1 standard error of the minimum
 ```
 
+
+
+#### Using the fdaSP package
+
+
+
 ```{r}
 # set lambdas
 lam <- 10^seq(1, -2, length.out = 30)
@@ -314,6 +323,12 @@ mod <- fdaSP::lmSP(X = as.matrix(X), y = y,
 par(mfrow=c(1,1))
 matplot(log(mod$lambda), mod$sp.coef.path, ty="l")
 ```
+
+
+### Real estate dataset
+
+
+
 
 
 

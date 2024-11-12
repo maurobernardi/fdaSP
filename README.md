@@ -11,13 +11,11 @@ Status](https://ci.appveyor.com/api/projects/status/github/hrbrmstr/ggalt?branch
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggalt)](https://CRAN.R-project.org/package=ggalt)
 ![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggalt)
 
-`ggalt` : Extra Coordinate Systems, Geoms, Statistical Transformations,
-Scales & Fonts for ‘ggplot2’
+`fdaSP` : sparse functional data analysis
 
-A compendium of ‘geoms’, ‘coords’, ‘stats’, scales and fonts for
-‘ggplot2’, including splines, 1d and 2d densities, univariate average
-shifted histograms, a new map coordinate system based on the
-‘PROJ.4’-library and the ‘StateFace’ open source font ‘ProPublica’.
+A comprehensive guide to using the ‘fdaSP’ package, covering techniques
+such as linear models with lasso, group lasso, sparse group lasso, and
+overlapping group lasso penalties.
 
 The following functions are implemented:
 
@@ -69,6 +67,14 @@ The following functions are implemented:
 
 - plotly integration for a few of the ^^ geoms
 
+### Required libraries
+
+``` r
+library(glmnet)
+## Loading required package: Matrix
+## Loaded glmnet 4.1-8
+```
+
 ### Installation
 
 ``` r
@@ -100,12 +106,14 @@ corrplot::corrplot(M, order = "AOE", method = "ellipse",
                    type = "upper", tl.cex = 0.5) 
 ```
 
-<img src="README_figs/README-unnamed-chunk-4-1.png" width="672" />
+<img src="README_figs/README-unnamed-chunk-5-1.png" width="672" />
 
 ``` r
 # run lm
-formula <- CPIAUCSL ~ UNRATE_l1 + EC_l1 + PRFI_l1 + GDPC1_l1 + HOUST_l1 + USPRIV_l1 + TB3MS_l1 + GS10_l1 + T10Y3MM_l1 +
-  T10YFFM_l1 + M1SL_l1 + MICH_l1 + PPIACO_l1 + DJIA_l1 + NAPMPMI_l1 + NAPMSDI_l1 + OILPRICE_l1 + GASPRICE_l1
+formula <- CPIAUCSL ~ UNRATE_l1 + EC_l1 + PRFI_l1 + GDPC1_l1 + 
+  HOUST_l1 + USPRIV_l1 + TB3MS_l1 + GS10_l1 + T10Y3MM_l1 +
+  T10YFFM_l1 + M1SL_l1 + MICH_l1 + PPIACO_l1 + DJIA_l1 + 
+  NAPMPMI_l1 + NAPMSDI_l1 + OILPRICE_l1 + GASPRICE_l1
 ret.lm1 <- lm(formula = formula,
                 data = infl.data)
 summary(ret.lm1)
@@ -147,85 +155,116 @@ summary(ret.lm1)
 ```
 
 ``` r
-library(ggplot2)
-library(gridExtra)
-library(ggalt)
-## Registered S3 methods overwritten by 'ggalt':
-##   method                  from   
-##   grid.draw.absoluteGrob  ggplot2
-##   grobHeight.absoluteGrob ggplot2
-##   grobWidth.absoluteGrob  ggplot2
-##   grobX.absoluteGrob      ggplot2
-##   grobY.absoluteGrob      ggplot2
+# Fit whole solution path for illustration
+fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, nlambda = 100)
+plot(fit)
+```
+
+<img src="README_figs/README-unnamed-chunk-7-1.png" width="672" />
+
+``` r
+
+# Perform tenfold cross-validation
+set.seed(42)
+fit.cv <- cv.glmnet(x = as.matrix(X), y = y, standardize = TRUE, nlambda = 100, alpha = 0.5)
+
+# fit with best lambda
+fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, lambda = fit.cv$lambda.min)
+b   <- as.matrix(coef(fit))
+b
+##                     s0
+## (Intercept) 0.02544468
+## UNRATE_l1   0.00000000
+## EC_l1       0.00000000
+## PRFI_l1     0.00000000
+## GDPC1_l1    0.00000000
+## HOUST_l1    0.00000000
+## USPRIV_l1   0.00000000
+## TB3MS_l1    0.00000000
+## GS10_l1     0.00000000
+## T10Y3MM_l1  0.00000000
+## T10YFFM_l1  0.00000000
+## M1SL_l1     0.00000000
+## MICH_l1     0.00000000
+## PPIACO_l1   0.00000000
+## DJIA_l1     0.00000000
+## NAPMPMI_l1  0.00000000
+## NAPMSDI_l1  0.00000000
+## OILPRICE_l1 0.00000000
+## GASPRICE_l1 0.00000000
+## UNRATE_l2   0.00000000
+## EC_l2       0.00000000
+## PRFI_l2     0.00000000
+## GDPC1_l2    0.00000000
+## HOUST_l2    0.00000000
+## USPRIV_l2   0.00000000
+## TB3MS_l2    0.00000000
+## GS10_l2     0.00000000
+## T10Y3MM_l2  0.00000000
+## T10YFFM_l2  0.00000000
+## M1SL_l2     0.00000000
+## MICH_l2     0.00000000
+## PPIACO_l2   0.00000000
+## DJIA_l2     0.00000000
+## NAPMPMI_l2  0.00000000
+## NAPMSDI_l2  0.00000000
+## OILPRICE_l2 0.00000000
+## GASPRICE_l2 0.00000000
+## UNRATE_l3   0.00000000
+## EC_l3       0.00000000
+## PRFI_l3     0.00000000
+## GDPC1_l3    0.00000000
+## HOUST_l3    0.00000000
+## USPRIV_l3   0.00000000
+## TB3MS_l3    0.00000000
+## GS10_l3     0.00000000
+## T10Y3MM_l3  0.00000000
+## T10YFFM_l3  0.00000000
+## M1SL_l3     0.00000000
+## MICH_l3     0.00000000
+## PPIACO_l3   0.00000000
+## DJIA_l3     0.00000000
+## NAPMPMI_l3  0.00000000
+## NAPMSDI_l3  0.00000000
+## OILPRICE_l3 0.00000000
+## GASPRICE_l3 0.00000000
+## UNRATE_l4   0.00000000
+## EC_l4       0.00000000
+## PRFI_l4     0.00000000
+## GDPC1_l4    0.00000000
+## HOUST_l4    0.00000000
+## USPRIV_l4   0.00000000
+## TB3MS_l4    0.00000000
+## GS10_l4     0.00000000
+## T10Y3MM_l4  0.00000000
+## T10YFFM_l4  0.00000000
+## M1SL_l4     0.00000000
+## MICH_l4     0.00000000
+## PPIACO_l4   0.00000000
+## DJIA_l4     0.00000000
+## NAPMPMI_l4  0.00000000
+## NAPMSDI_l4  0.00000000
+## OILPRICE_l4 0.00000000
+## GASPRICE_l4 0.00000000
 ```
 
 ``` r
 
-# current verison
-packageVersion("ggalt")
-## [1] '0.4.0'
+# Visualize cross-validation error-path
+plot(fit.cv)
 ```
+
+<img src="README_figs/README-unnamed-chunk-7-2.png" width="672" />
 
 ``` r
 
-set.seed(1492)
-dat <- data.frame(x=c(1:10, 1:10, 1:10),
-                  y=c(sample(15:30, 10), 2*sample(15:30, 10), 3*sample(15:30, 10)),
-                  group=factor(c(rep(1, 10), rep(2, 10), rep(3, 10)))
-)
+# Get selected variables
+b <- as.matrix(coef(fit.cv))
+rownames(b)[b != 0]
+## [1] "(Intercept)"
 ```
-
-### Horzon Chart
-
-Example carved from:
-<https://github.com/halhen/viz-pub/blob/master/sports-time-of-day/2_gen_chart.R>
 
 ``` r
-library(hrbrthemes)
-library(ggalt)
-library(tidyverse)
-
-sports <- read_tsv("https://github.com/halhen/viz-pub/raw/master/sports-time-of-day/activity.tsv")
-
-sports %>%
-  group_by(activity) %>% 
-  filter(max(p) > 3e-04, 
-         !grepl('n\\.e\\.c', activity)) %>% 
-  arrange(time) %>%
-  mutate(p_peak = p / max(p), 
-         p_smooth = (lag(p_peak) + p_peak + lead(p_peak)) / 3,
-         p_smooth = coalesce(p_smooth, p_peak)) %>% 
-  ungroup() %>%
-  do({ 
-    rbind(.,
-          filter(., time == 0) %>%
-            mutate(time = 24*60))
-  }) %>%
-  mutate(time = ifelse(time < 3 * 60, time + 24 * 60, time)) %>%
-  mutate(activity = reorder(activity, p_peak, FUN=which.max)) %>% 
-  arrange(activity) %>%
-  mutate(activity.f = reorder(as.character(activity), desc(activity))) -> sports
-
-sports <- mutate(sports, time2 = time/60)
-
-ggplot(sports, aes(time2, p_smooth)) +
-  ggHoriPlot::geom_horizon(bandwidth=0.1) +
-  facet_grid(activity.f~.) +
-  scale_x_continuous(expand=c(0,0), breaks=seq(from = 3, to = 27, by = 3), labels = function(x) {sprintf("%02d:00", as.integer(x %% 24))}) +
-  viridis::scale_fill_viridis(name = "Activity relative to peak", discrete=TRUE,
-                              labels=scales::percent(seq(0, 1, 0.1)+0.1)) +
-  labs(x=NULL, y=NULL, title="Peak time of day for sports and leisure",
-       subtitle="Number of participants throughout the day compared to peak popularity.\nNote the morning-and-evening everyday workouts, the midday hobbies,\nand the evenings/late nights out.") +
-  theme_ipsum_rc(grid="") +
-  theme(panel.spacing.y=unit(-0.05, "lines")) +
-  theme(strip.text.y = element_text(hjust=0, angle=360)) +
-  theme(axis.text.y=element_blank())
+## By default, the selected variables are based on the largest value of
+## lambda such that the cv-error is within 1 standard error of the minimum
 ```
-
-<img src="README_figs/README-horizon-1.png" width="912" />
-
-### Code of Conduct
-
-Please note that this project is released with a [Contributor Code of
-Conduct](CONDUCT.md). By participating in this project you agree to
-abide by its terms.

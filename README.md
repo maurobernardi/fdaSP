@@ -1,3 +1,6 @@
+fdaSP: An R Package for sparse functional data analysis
+================
+11 November 2024
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -65,6 +68,12 @@ Inflation is predicted using quarterly data from several macroeconomic
 indicators, see . In this example, we consider quarterly observations
 for the period from 1991-Q3 to 2023-Q4. Further details on the variables
 used and their sources can be found in the data appendix of .
+
+The field of natural language processing (NLP) has become mostly
+dominated by deep learning approaches (Young et al.,
+[2018](https://doi.org/10.1109/MCI.2018.2840738)). Some are based on
+transformer neural networks (e.g., Devlin et al,
+[2018](https://arxiv.org/abs/1810.04805)).
 
 ``` r
 load("inflation-Q.RData")

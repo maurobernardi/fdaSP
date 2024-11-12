@@ -1,4 +1,22 @@
 ---
+title: >-
+  fdaSP: An R Package for sparse functional data analysis
+tags:
+  - R
+  - sparse linear regression models
+  - sparse functional-to-scalar regression model
+  - sparse functional-to-functional regression model
+authors:
+  - name: Mauro Bernardi
+    orcid: 0000-0003-1672-7565
+    affiliation: 1
+affiliations:
+ - name: >-
+     Department of Statistical Sciences,
+     University of Padova, Italy
+   index: 2
+date: 11 November 2024
+bibliography: REFERENCES.bib
 output: rmarkdown::github_document
 ---
 
@@ -53,6 +71,12 @@ options(width=120)
 #### Load the Inflation dataset
 
 Load the Inflation dataset. We consider the quarterly changes in the Consumer Price Index (CPIAUCSL,CPILFESL) as a measure of inflation. Inflation is predicted using quarterly data from several macroeconomic indicators, see \cite{bernardi_etal.2016}. In this example, we consider quarterly observations for the period from 1991-Q3 to 2023-Q4. Further details on the variables used and their sources can be found in the data appendix of \cite{bernardi_etal.2016}.  
+
+The field of natural language processing (NLP) has become mostly dominated by deep learning approaches
+(Young et al., [2018](https://doi.org/10.1109/MCI.2018.2840738)).
+Some are based on transformer neural networks
+(e.g., Devlin et al, [2018](https://arxiv.org/abs/1810.04805)).
+
 
 ```{r}
 load("inflation-Q.RData")

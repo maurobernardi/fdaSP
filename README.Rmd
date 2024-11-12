@@ -20,26 +20,12 @@ A comprehensive guide to using the 'fdaSP' package, covering techniques such as 
 
 The following functions are implemented:
 
-- `geom_ubar` : Uniform width bar charts
-- `geom_horizon` : Horizon charts (modified from <https://github.com/AtherEnergy/ggTimeSeries>)
-- `coord_proj` : Like `coord_map`, only better (prbly shld use this with `geom_cartogram` as `geom_map`'s new defaults are ugh)
-- `geom_xspline` : Connect control points/observations with an X-spline
-- `stat_xspline` : Connect control points/observations with an X-spline
-- `geom_bkde` :	Display a smooth density estimate (uses `KernSmooth::bkde`)
-- `geom_stateface`:	Use ProPublica's StateFace font in ggplot2 plots
-- `geom_bkde2d` : Contours from a 2d density estimate. (uses `KernSmooth::bkde2D`)
-- `stat_bkde` :	Display a smooth density estimate (uses `KernSmooth::bkde`)
-- `stat_bkde2d` :	Contours from a 2d density estimate. (uses `KernSmooth::bkde2D`)
-- `stat_ash` : Compute and display a univariate averaged shifted histogram (polynomial kernel) (uses `ash::ash1`/`ash::bin1`)
-- `geom_encircle`:	Automatically enclose points in a polygon
-- `byte_format`: + helpers. e.g. turn `10000` into `10 Kb`
-- `geom_lollipop()`: Dead easy lollipops (horizontal or vertical)
-- `geom_dumbbell()` : Dead easy dumbbell plots
-- `stat_stepribbon()` : Step ribbons
-- `annotation_ticks()` : Add minor ticks to identity, exp(1) and exp(10) axis scales independently of each other.
-- `geom_spikelines()` : Instead of geom_vline and geom_hline a pair of segments that originate from same c(x,y) are drawn to the respective axes.
-
-
+- `lmSP`     : Sparse Adaptive Overlap Group Least Absolute Shrinkage and Selection Operator
+- `lmSP_cv`  : Cross-validation for Sparse Adaptive Overlap Group Least Absolute Shrinkage and Selection Operator
+- `f2sSP`    : Overlap Group Least Absolute Shrinkage and Selection Operator for scalar-on-function regression model
+- `f2sSP_cv` : Cross-validation for Overlap Group Least Absolute Shrinkage and Selection Operator on scalar-on-function regression model
+- `f2fSP`    : Overlap Group Least Absolute Shrinkage and Selection Operator for function-on-function regression model
+- `f2fSP_cv` : Cross-validation for Overlap Group Least Absolute Shrinkage and Selection Operator on scalar-on-function regression model
 
 ### Required libraries
 
@@ -66,6 +52,8 @@ options(width=120)
 
 #### Load the Inflation dataset
 
+Load the Inflation dataset. We consider the quarterly changes in the Consumer Price Index (CPIAUCSL,CPILFESL) as a measure of inflation. Inflation is predicted using quarterly data from several macroeconomic indicators, see \cite{bernardi_etal.2016}. In this example, we consider quarterly observations for the period from 1991-Q3 to 2023-Q4. Further details on the variables used and their sources can be found in the data appendix of \cite{bernardi_etal.2016}.  
+
 ```{r}
 load("inflation-Q.RData")
 
@@ -83,6 +71,7 @@ M              <- cor(data)
 corrplot::corrplot(M, order = "AOE", method = "ellipse",
                    type = "upper", tl.cex = 0.5) 
 ```
+
 
 
 ```{r}

@@ -65,9 +65,10 @@ install.packages("fdaSP", dependencies = TRUE)
 Load the Inflation dataset. We consider the quarterly changes in the
 Consumer Price Index (CPIAUCSL,CPILFESL) as a measure of inflation.
 Inflation is predicted using quarterly data from several macroeconomic
-indicators, see . In this example, we consider quarterly observations
-for the period from 1991-Q3 to 2023-Q4. Further details on the variables
-used and their sources can be found in the data appendix of .
+indicators, see (Bernardi et al. 2024). In this example, we consider
+quarterly observations for the period from 1991-Q3 to 2023-Q4. Further
+details on the variables used and their sources can be found in the data
+appendix of (Bernardi et al. 2024).
 
 The field of natural language processing (NLP) has become mostly
 dominated by deep learning approaches (Young et al.,
@@ -248,3 +249,17 @@ lines(1:8, cp, col = "blue",  lwd = 1.2)
 ```
 
 <img src="README_figs/README-unnamed-chunk-8-1.png" width="672" />
+
+# References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-bernardi_etal.2024" class="csl-entry">
+
+Bernardi, Mauro, Roberto Casarin, Bertrand Maillet, and Lea Petrella.
+2024. “Bayesian Dynamic Quantile Model Averaging.”
+<https://arxiv.org/abs/1602.00856>.
+
+</div>
+
+</div>

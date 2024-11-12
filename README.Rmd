@@ -267,7 +267,7 @@ tau.ada    <- 2
 
 # fit CV
 mod_cv <- fdaSP:::lmSP_cv(X = as.matrix(X), y = y, penalty = "LASSO", 
-                          standardize.data = TRUE, intercept = TRUE,
+                          standardize.data = TRUE, intercept = FALSE,
                           cv.fold = 5, nlambda = 30, 
                           control = list("adaptation" = TRUE, 
                                          "rho" = rho, 
@@ -288,6 +288,31 @@ fdaSP::confband(xV = log(mod_cv$lambda), yVmin = mod_cv$mse - mod_cv$mse.sd,
                 yVmax = mod_cv$mse + mod_cv$mse.sd)       
 abline(v = log(mod_cv$lambda[which(mod_cv$lambda == mod_cv$lambda.min)]), 
        col = "red", lwd = 1.0)
+```
+
+
+```{r}
+mod <- fdaSP::lmSP(X = as.matrix(X), y = y, 
+                   penalty = "lasso", 
+                   standardize.data = TRUE, 
+                   intercept = FALSE,
+                   nlambda = 30, 
+                   control = list("adaptation" = TRUE, 
+                                  "rho" = rho, 
+                                  "maxit" = maxit, 
+                                  "reltol" = reltol, 
+                                  "abstol" = abstol, 
+                                  "print.out" = FALSE)) 
+```
+
+
+
+
+
+```{r}
+# plot
+par(mfrow=c(1,1))
+matplot(log(mod$lambda), mod$sp.coef.path, ty="l")
 ```
 
 

@@ -18,7 +18,8 @@ Status](https://ci.appveyor.com/api/projects/status/github/hrbrmstr/ggalt?branch
 
 A comprehensive guide to using the ‘fdaSP’ package, covering techniques
 such as linear models with lasso, group lasso, sparse group lasso, and
-overlapping group lasso penalties.
+overlapping group lasso penalties, see (Mauro Bernardi and Stefanucci
+2023).
 
 The following functions are implemented:
 
@@ -259,6 +260,15 @@ lines(1:8, cp, col = "blue",  lwd = 1.2)
 Bernardi, Mauro, Roberto Casarin, Bertrand Maillet, and Lea Petrella.
 2024. “Bayesian Dynamic Quantile Model Averaging.”
 <https://arxiv.org/abs/1602.00856>.
+
+</div>
+
+<div id="ref-bernardi_etal.2023" class="csl-entry">
+
+Mauro Bernardi, Antonio Canale, and Marco Stefanucci. 2023. “Locally
+Sparse Function-on-Function Regression.” *Journal of Computational and
+Graphical Statistics* 32 (3): 985–99.
+<https://doi.org/10.1080/10618600.2022.2130926>.
 
 </div>
 

@@ -8,7 +8,7 @@ tags:
   - sparse functional-to-functional regression model
 authors:
   - name: Mauro Bernardi
-    orcid: 0000-0003-1672-7565
+    orcid: 0000-0001-5759-9892
     affiliation: 1
 affiliations:
  - name: >-
@@ -34,7 +34,7 @@ knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2, fig.path = "REA
 
 `fdaSP` : sparse functional data analysis
 
-A comprehensive guide to using the 'fdaSP' package, covering techniques such as linear models with lasso, group lasso, sparse group lasso, and overlapping group lasso penalties.
+A comprehensive guide to using the 'fdaSP' package, covering techniques such as linear models with lasso, group lasso, sparse group lasso, and overlapping group lasso penalties, see [@bernardi_etal.2023].
 
 The following functions are implemented:
 

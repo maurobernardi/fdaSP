@@ -39,12 +39,13 @@ The following functions are implemented:
 - `annotation_ticks()` : Add minor ticks to identity, exp(1) and exp(10) axis scales independently of each other.
 - `geom_spikelines()` : Instead of geom_vline and geom_hline a pair of segments that originate from same c(x,y) are drawn to the respective axes.
 
-- plotly integration for a few of the ^^ geoms
+
 
 ### Required libraries
 
 ```{r}
 library(glmnet)
+library(leaps)
 ```
 
 
@@ -97,17 +98,18 @@ summary(ret.lm1)
 
 ```{r}
 # Fit whole solution path for illustration
-fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, nlambda = 100)
+fit <- glmnet(x = as.matrix(X)[,1:18], y = y, standardize = TRUE, nlambda = 100)
 plot(fit)
 
 # Perform tenfold cross-validation
 set.seed(42)
-fit.cv <- cv.glmnet(x = as.matrix(X), y = y, standardize = TRUE, nlambda = 100, alpha = 0.5)
+fit.cv <- cv.glmnet(x = as.matrix(X)[,1:18], y = y, standardize = TRUE, 
+                    nlambda = 100, alpha = 0.5)
 
 # fit with best lambda
-fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, lambda = fit.cv$lambda.min)
+fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, 
+              lambda = fit.cv$lambda.min)
 b   <- as.matrix(coef(fit))
-b
 
 # Visualize cross-validation error-path
 plot(fit.cv)
@@ -119,6 +121,23 @@ rownames(b)[b != 0]
 ## lambda such that the cv-error is within 1 standard error of the minimum
 ```
 
+```{r}
+# best subset
+lm.subset <- regsubsets(x = X.std[,2:19], y = y.std, 
+                        method = "exhaustive", nvmax = 8)
+summary(lm.subset)
+bic <- summary(lm.subset)$bic
+rss <- summary(lm.subset)$rss
+cp  <- summary(lm.subset)$cp
+
+# define the optimal model using BIC and run LM
+idx <- which(summary(lm.subset)$which[which.min(bic),] == TRUE)
+coef(lm(y.std ~ X.std[,idx]-1))
+
+# plot
+plot(1:8, bic, col = "red", ylim = c(-17, 15), type = "l", lwd = 1.2)
+lines(1:8, cp, col = "blue",  lwd = 1.2)
+```
 
 
 

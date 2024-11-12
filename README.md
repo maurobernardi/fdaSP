@@ -20,52 +20,33 @@ overlapping group lasso penalties.
 The following functions are implemented:
 
 - `geom_ubar` : Uniform width bar charts
-
 - `geom_horizon` : Horizon charts (modified from
   <https://github.com/AtherEnergy/ggTimeSeries>)
-
 - `coord_proj` : Like `coord_map`, only better (prbly shld use this with
   `geom_cartogram` as `geom_map`’s new defaults are ugh)
-
 - `geom_xspline` : Connect control points/observations with an X-spline
-
 - `stat_xspline` : Connect control points/observations with an X-spline
-
 - `geom_bkde` : Display a smooth density estimate (uses
   `KernSmooth::bkde`)
-
 - `geom_stateface`: Use ProPublica’s StateFace font in ggplot2 plots
-
 - `geom_bkde2d` : Contours from a 2d density estimate. (uses
   `KernSmooth::bkde2D`)
-
 - `stat_bkde` : Display a smooth density estimate (uses
   `KernSmooth::bkde`)
-
 - `stat_bkde2d` : Contours from a 2d density estimate. (uses
   `KernSmooth::bkde2D`)
-
 - `stat_ash` : Compute and display a univariate averaged shifted
   histogram (polynomial kernel) (uses `ash::ash1`/`ash::bin1`)
-
 - `geom_encircle`: Automatically enclose points in a polygon
-
 - `byte_format`: + helpers. e.g. turn `10000` into `10 Kb`
-
 - `geom_lollipop()`: Dead easy lollipops (horizontal or vertical)
-
 - `geom_dumbbell()` : Dead easy dumbbell plots
-
 - `stat_stepribbon()` : Step ribbons
-
 - `annotation_ticks()` : Add minor ticks to identity, exp(1) and exp(10)
   axis scales independently of each other.
-
 - `geom_spikelines()` : Instead of geom_vline and geom_hline a pair of
   segments that originate from same c(x,y) are drawn to the respective
   axes.
-
-- plotly integration for a few of the ^^ geoms
 
 ### Required libraries
 
@@ -73,6 +54,10 @@ The following functions are implemented:
 library(glmnet)
 ## Loading required package: Matrix
 ## Loaded glmnet 4.1-8
+```
+
+``` r
+library(leaps)
 ```
 
 ### Installation
@@ -156,7 +141,7 @@ summary(ret.lm1)
 
 ``` r
 # Fit whole solution path for illustration
-fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, nlambda = 100)
+fit <- glmnet(x = as.matrix(X)[,1:18], y = y, standardize = TRUE, nlambda = 100)
 plot(fit)
 ```
 
@@ -166,89 +151,13 @@ plot(fit)
 
 # Perform tenfold cross-validation
 set.seed(42)
-fit.cv <- cv.glmnet(x = as.matrix(X), y = y, standardize = TRUE, nlambda = 100, alpha = 0.5)
+fit.cv <- cv.glmnet(x = as.matrix(X)[,1:18], y = y, standardize = TRUE, 
+                    nlambda = 100, alpha = 0.5)
 
 # fit with best lambda
-fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, lambda = fit.cv$lambda.min)
+fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, 
+              lambda = fit.cv$lambda.min)
 b   <- as.matrix(coef(fit))
-b
-##                     s0
-## (Intercept) 0.02544468
-## UNRATE_l1   0.00000000
-## EC_l1       0.00000000
-## PRFI_l1     0.00000000
-## GDPC1_l1    0.00000000
-## HOUST_l1    0.00000000
-## USPRIV_l1   0.00000000
-## TB3MS_l1    0.00000000
-## GS10_l1     0.00000000
-## T10Y3MM_l1  0.00000000
-## T10YFFM_l1  0.00000000
-## M1SL_l1     0.00000000
-## MICH_l1     0.00000000
-## PPIACO_l1   0.00000000
-## DJIA_l1     0.00000000
-## NAPMPMI_l1  0.00000000
-## NAPMSDI_l1  0.00000000
-## OILPRICE_l1 0.00000000
-## GASPRICE_l1 0.00000000
-## UNRATE_l2   0.00000000
-## EC_l2       0.00000000
-## PRFI_l2     0.00000000
-## GDPC1_l2    0.00000000
-## HOUST_l2    0.00000000
-## USPRIV_l2   0.00000000
-## TB3MS_l2    0.00000000
-## GS10_l2     0.00000000
-## T10Y3MM_l2  0.00000000
-## T10YFFM_l2  0.00000000
-## M1SL_l2     0.00000000
-## MICH_l2     0.00000000
-## PPIACO_l2   0.00000000
-## DJIA_l2     0.00000000
-## NAPMPMI_l2  0.00000000
-## NAPMSDI_l2  0.00000000
-## OILPRICE_l2 0.00000000
-## GASPRICE_l2 0.00000000
-## UNRATE_l3   0.00000000
-## EC_l3       0.00000000
-## PRFI_l3     0.00000000
-## GDPC1_l3    0.00000000
-## HOUST_l3    0.00000000
-## USPRIV_l3   0.00000000
-## TB3MS_l3    0.00000000
-## GS10_l3     0.00000000
-## T10Y3MM_l3  0.00000000
-## T10YFFM_l3  0.00000000
-## M1SL_l3     0.00000000
-## MICH_l3     0.00000000
-## PPIACO_l3   0.00000000
-## DJIA_l3     0.00000000
-## NAPMPMI_l3  0.00000000
-## NAPMSDI_l3  0.00000000
-## OILPRICE_l3 0.00000000
-## GASPRICE_l3 0.00000000
-## UNRATE_l4   0.00000000
-## EC_l4       0.00000000
-## PRFI_l4     0.00000000
-## GDPC1_l4    0.00000000
-## HOUST_l4    0.00000000
-## USPRIV_l4   0.00000000
-## TB3MS_l4    0.00000000
-## GS10_l4     0.00000000
-## T10Y3MM_l4  0.00000000
-## T10YFFM_l4  0.00000000
-## M1SL_l4     0.00000000
-## MICH_l4     0.00000000
-## PPIACO_l4   0.00000000
-## DJIA_l4     0.00000000
-## NAPMPMI_l4  0.00000000
-## NAPMSDI_l4  0.00000000
-## OILPRICE_l4 0.00000000
-## GASPRICE_l4 0.00000000
-```
-
-``` r
 
 # Visualize cross-validation error-path
 plot(fit.cv)
@@ -268,3 +177,72 @@ rownames(b)[b != 0]
 ## By default, the selected variables are based on the largest value of
 ## lambda such that the cv-error is within 1 standard error of the minimum
 ```
+
+``` r
+# best subset
+lm.subset <- regsubsets(x = X.std[,2:19], y = y.std, 
+                        method = "exhaustive", nvmax = 8)
+summary(lm.subset)
+## Subset selection object
+## 18 Variables  (and intercept)
+##             Forced in Forced out
+## UNRATE_l1       FALSE      FALSE
+## EC_l1           FALSE      FALSE
+## PRFI_l1         FALSE      FALSE
+## GDPC1_l1        FALSE      FALSE
+## HOUST_l1        FALSE      FALSE
+## USPRIV_l1       FALSE      FALSE
+## TB3MS_l1        FALSE      FALSE
+## GS10_l1         FALSE      FALSE
+## T10Y3MM_l1      FALSE      FALSE
+## T10YFFM_l1      FALSE      FALSE
+## M1SL_l1         FALSE      FALSE
+## MICH_l1         FALSE      FALSE
+## PPIACO_l1       FALSE      FALSE
+## DJIA_l1         FALSE      FALSE
+## NAPMPMI_l1      FALSE      FALSE
+## NAPMSDI_l1      FALSE      FALSE
+## OILPRICE_l1     FALSE      FALSE
+## GASPRICE_l1     FALSE      FALSE
+## 1 subsets of each size up to 8
+## Selection Algorithm: exhaustive
+##          UNRATE_l1 EC_l1 PRFI_l1 GDPC1_l1 HOUST_l1 USPRIV_l1 TB3MS_l1 GS10_l1 T10Y3MM_l1 T10YFFM_l1 M1SL_l1 MICH_l1
+## 1  ( 1 ) " "       " "   " "     " "      " "      " "       " "      " "     " "        " "        " "     " "    
+## 2  ( 1 ) " "       " "   " "     " "      " "      " "       " "      " "     " "        " "        " "     " "    
+## 3  ( 1 ) " "       "*"   " "     "*"      " "      " "       " "      " "     " "        " "        " "     " "    
+## 4  ( 1 ) " "       "*"   " "     "*"      " "      " "       " "      " "     " "        " "        " "     " "    
+## 5  ( 1 ) " "       "*"   " "     "*"      " "      " "       " "      " "     "*"        " "        " "     " "    
+## 6  ( 1 ) " "       "*"   " "     "*"      "*"      " "       " "      " "     "*"        " "        " "     " "    
+## 7  ( 1 ) " "       "*"   "*"     "*"      "*"      " "       " "      " "     " "        " "        " "     " "    
+## 8  ( 1 ) " "       "*"   "*"     "*"      "*"      " "       " "      " "     " "        " "        " "     " "    
+##          PPIACO_l1 DJIA_l1 NAPMPMI_l1 NAPMSDI_l1 OILPRICE_l1 GASPRICE_l1
+## 1  ( 1 ) "*"       " "     " "        " "        " "         " "        
+## 2  ( 1 ) "*"       " "     " "        " "        " "         "*"        
+## 3  ( 1 ) "*"       " "     " "        " "        " "         " "        
+## 4  ( 1 ) "*"       " "     " "        " "        " "         "*"        
+## 5  ( 1 ) "*"       " "     " "        " "        " "         "*"        
+## 6  ( 1 ) "*"       " "     " "        " "        " "         "*"        
+## 7  ( 1 ) "*"       "*"     " "        " "        " "         "*"        
+## 8  ( 1 ) "*"       "*"     "*"        " "        " "         "*"
+```
+
+``` r
+bic <- summary(lm.subset)$bic
+rss <- summary(lm.subset)$rss
+cp  <- summary(lm.subset)$cp
+
+# define the optimal model using BIC and run LM
+idx <- which(summary(lm.subset)$which[which.min(bic),] == TRUE)
+coef(lm(y.std ~ X.std[,idx]-1))
+##   X.std[, idx]intercept       X.std[, idx]EC_l1    X.std[, idx]GDPC1_l1   X.std[, idx]PPIACO_l1 X.std[, idx]GASPRICE_l1 
+##            3.786142e-16           -6.958761e-01            6.777184e-01            7.424334e-01           -4.390489e-01
+```
+
+``` r
+
+# plot
+plot(1:8, bic, col = "red", ylim = c(-17, 15), type = "l", lwd = 1.2)
+lines(1:8, cp, col = "blue",  lwd = 1.2)
+```
+
+<img src="README_figs/README-unnamed-chunk-8-1.png" width="672" />

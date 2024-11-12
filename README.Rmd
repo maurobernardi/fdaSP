@@ -50,6 +50,7 @@ The following functions are implemented:
 ```{r}
 library(glmnet)
 library(leaps)
+library(BMS)
 ```
 
 
@@ -66,18 +67,11 @@ install.packages("fdaSP", dependencies = TRUE)
 options(width=120)
 ```
 
-### Usage
+### Inflation dataset
 
 #### Load the Inflation dataset
 
 Load the Inflation dataset. We consider the quarterly changes in the Consumer Price Index (CPIAUCSL,CPILFESL) as a measure of inflation. Inflation is predicted using quarterly data from several macroeconomic indicators, see [@bernardi_etal.2024]. In this example, we consider quarterly observations for the period from 1991-Q3 to 2023-Q4. Further details on the variables used and their sources can be found in the data appendix of [@bernardi_etal.2024].  
-
-The field of natural language processing (NLP) has become mostly dominated by deep learning approaches
-(Young et al., [2018](https://doi.org/10.1109/MCI.2018.2840738)).
-Some are based on transformer neural networks
-(e.g., Devlin et al, [2018](https://arxiv.org/abs/1810.04805)).
-
-
 ```{r}
 load("inflation-Q.RData")
 
@@ -150,6 +144,150 @@ coef(lm(y.std ~ X.std[,idx]-1))
 # plot
 plot(1:8, bic, col = "red", ylim = c(-17, 15), type = "l", lwd = 1.2)
 lines(1:8, cp, col = "blue",  lwd = 1.2)
+```
+
+
+
+
+```{r}
+## Ridge Regression to create the adaptive weights 
+set.seed(1234)
+cv.ridge <- cv.glmnet(x = as.matrix(X)[,1:18], y = y, family = "gaussian", 
+                      alpha = 0, parallel = FALSE, standardize = TRUE)
+cv.ridge
+coef(cv.ridge)
+ridge.wei <- 1.0 / abs(matrix(coef(cv.ridge, s = cv.ridge$lambda.min)))[-1]
+lm.wei    <- 1.0 / abs(matrix(coef(ret.lm1)))[-1]
+
+## Adaptive Lasso
+cv.lasso <- cv.glmnet(x = as.matrix(X)[,1:18], y = y, family = "gaussian", alpha = 1, 
+                      parallel = FALSE, standardize = TRUE, type.measure = "mse", 
+                      penalty.factor = lm.wei)
+plot(cv.lasso)
+plot(cv.lasso$glmnet.fit, xvar = "lambda", label = TRUE)
+abline(v = log(cv.lasso$lambda.min))
+abline(v = log(cv.lasso$lambda.1se))
+coef(cv.lasso, s = cv.lasso$lambda.1se)
+coef <- coef(cv.lasso, s = "lambda.1se")
+```
+
+
+
+
+
+```{r}
+# BMS
+# estimating a standard MC3 chain and uniform model priors
+X.data <- cbind(y, X[,1:18])
+bma1   <- bms(X.data = X.data, burn = 10000, iter = 50000, mprior = "uniform", 
+              mcmc = "rev.jump", nmodel = 10, logfile = FALSE)
+bma2   <- bms(X.data = X.data, burn = 10000, iter = 50000, mprior = "uniform", 
+              mcmc = "enumerate", nmodel = 10)
+
+# summary
+summary(bma1)
+
+# standard coefficients based on exact likelihoods of the 100 best models:
+coef(bma1, exact = TRUE, std.coefs = FALSE, order.by.pip = FALSE, include.constant = TRUE) 
+
+# best models
+bma1$topmod
+bma2$topmod
+
+#show binaries for 1st, 2nd and 3rd best model, without the model probs
+topmodels.bma(bma1[1:8])
+
+#topbest1 <- topmodels.bma(bma1[1])[1:(dim(X)[2])]
+#which(topmodels.bma(bma1[1, 1:2]) == 1.0)
+#beta.draws.bma(bma1)[,1]
+```
+
+
+
+
+
+```{r}
+# linear regression with lagged endogenous variables (LAG 1 to 4)
+load("inflation-Q.RData")
+head(infl.data)
+
+# create the dataset
+y                  <- infl.data$CPIAUCSL
+X                  <- infl.data[,3:dim(infl.data)[2]]
+X.std              <- cbind(rep(1, nrow(X)), scale(X))       
+y.std              <- scale(y)
+colnames(X.std)[1] <- "intercept"
+
+# run lm
+ret.lm4 <- lm(CPIAUCSL ~ UNRATE_l1 + EC_l1 + PRFI_l1 + GDPC1_l1 + HOUST_l1 + USPRIV_l1 + TB3MS_l1 + GS10_l1 + T10Y3MM_l1 +
+                T10YFFM_l1 + M1SL_l1 + MICH_l1 + PPIACO_l1 + DJIA_l1 + NAPMPMI_l1 + NAPMSDI_l1 + OILPRICE_l1 + GASPRICE_l1 +
+                UNRATE_l2 + EC_l2 + PRFI_l2 + GDPC1_l2 + HOUST_l2 + USPRIV_l2 + TB3MS_l2 + GS10_l2 + T10Y3MM_l2 +
+                T10YFFM_l2 + M1SL_l2 + MICH_l2 + PPIACO_l2 + DJIA_l2 + NAPMPMI_l2 + NAPMSDI_l2 + OILPRICE_l2 + GASPRICE_l2 +
+                UNRATE_l3 + EC_l3 + PRFI_l3 + GDPC1_l3 + HOUST_l3 + USPRIV_l3 + TB3MS_l3 + GS10_l3 + T10Y3MM_l3 +
+                T10YFFM_l3 + M1SL_l3 + MICH_l3 + PPIACO_l3 + DJIA_l3 + NAPMPMI_l3 + NAPMSDI_l3 + OILPRICE_l3 + GASPRICE_l3 +
+                UNRATE_l4 + EC_l4 + PRFI_l4 + GDPC1_l4 + HOUST_l4 + USPRIV_l4 + TB3MS_l4 + GS10_l4 + T10Y3MM_l4 +
+                T10YFFM_l4 + M1SL_l4 + MICH_l4 + PPIACO_l4 + DJIA_l4 + NAPMPMI_l4 + NAPMSDI_l4 + OILPRICE_l4 + GASPRICE_l4,
+              data = infl.data)
+summary(ret.lm4)
+
+# Fit whole solution path for illustration
+fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, nlambda = 100)
+plot(fit)
+
+# Perform tenfold cross-validation
+set.seed(42)
+fit.cv.enet <- cv.glmnet(x = as.matrix(X), y = y, standardize = TRUE, nlambda = 100, alpha = 0.5)
+
+# fit with best lambda
+fit <- glmnet(x = as.matrix(X), y = y, standardize = TRUE, lambda = fit.cv$lambda.min)
+b   <- as.matrix(coef(fit))
+b
+
+# Visualize cross-validation error-path
+plot(fit.cv)
+
+# Get selected variables
+b <- as.matrix(coef(fit.cv))
+rownames(b)[b != 0]
+## By default, the selected variables are based on the largest value of
+## lambda such that the cv-error is within 1 standard error of the minimum
+```
+
+```{r}
+# set lambdas
+lam <- 10^seq(1, -2, length.out = 30)
+
+# ADMM parameters
+maxit      <- 3000
+rho        <- 1
+reltol     <- 1e-4
+abstol     <- 1e-4
+mu.ada     <- 10
+tau.ada    <- 2
+
+# fit CV
+mod_cv <- fdaSP:::lmSP_cv(X = as.matrix(X), y = y, penalty = "LASSO", 
+                          standardize.data = TRUE, intercept = TRUE,
+                          cv.fold = 5, nlambda = 30, 
+                          control = list("adaptation" = TRUE, 
+                                         "rho" = rho, 
+                                         "maxit" = maxit, 
+                                         "reltol" = reltol, 
+                                         "abstol" = abstol, 
+                                         "print.out" = FALSE)) 
+```
+
+
+```{r}
+# graphical presentation
+plot(log(mod_cv$lambda), mod_cv$mse, type = "l", col = "blue", lwd = 2, bty = "n", 
+     xlab = latex2exp::TeX("$\\log(\\lambda)$"), ylab = "Prediction Error", 
+     ylim = range(mod_cv$mse - mod_cv$mse.sd, mod_cv$mse + mod_cv$mse.sd),
+     main = "Cross-validated Prediction Error")
+fdaSP::confband(xV = log(mod_cv$lambda), yVmin = mod_cv$mse - mod_cv$mse.sd, 
+                yVmax = mod_cv$mse + mod_cv$mse.sd)       
+abline(v = log(mod_cv$lambda[which(mod_cv$lambda == mod_cv$lambda.min)]), 
+       col = "red", lwd = 1.0)
 ```
 
 

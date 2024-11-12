@@ -56,6 +56,44 @@ options(width=120)
 
 ### Usage
 
+#### Load the Inflation dataset
+
+```{r}
+load("inflation-Q.RData")
+
+# create the response variable and the design matrix
+y                  <- infl.data$CPIAUCSL
+X                  <- infl.data[,3:74]
+X.std              <- cbind(rep(1, nrow(X)), scale(X))       
+y.std              <- scale(y)
+colnames(X.std)[1] <- "intercept"
+
+# correlation analysis
+data           <- cbind(y.std, X.std[,2:19])
+colnames(data) <- c("INFL", colnames(X.std)[2:19])
+M              <- cor(data)
+corrplot::corrplot(M, order = "AOE", method = "ellipse",
+                   type = "upper", tl.cex = 0.5) 
+```
+
+
+```{r}
+# run lm
+formula <- CPIAUCSL ~ UNRATE_l1 + EC_l1 + PRFI_l1 + GDPC1_l1 + HOUST_l1 + USPRIV_l1 + TB3MS_l1 + GS10_l1 + T10Y3MM_l1 +
+  T10YFFM_l1 + M1SL_l1 + MICH_l1 + PPIACO_l1 + DJIA_l1 + NAPMPMI_l1 + NAPMSDI_l1 + OILPRICE_l1 + GASPRICE_l1
+ret.lm1 <- lm(formula = formula,
+                data = infl.data)
+summary(ret.lm1)
+```
+
+
+
+
+
+
+
+
+
 ```{r}
 library(ggplot2)
 library(gridExtra)

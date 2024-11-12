@@ -80,6 +80,72 @@ install.packages("fdaSP", dependencies = TRUE)
 
 ### Usage
 
+#### Load the Inflation dataset
+
+``` r
+load("inflation-Q.RData")
+
+# create the response variable and the design matrix
+y                  <- infl.data$CPIAUCSL
+X                  <- infl.data[,3:74]
+X.std              <- cbind(rep(1, nrow(X)), scale(X))       
+y.std              <- scale(y)
+colnames(X.std)[1] <- "intercept"
+
+# correlation analysis
+data           <- cbind(y.std, X.std[,2:19])
+colnames(data) <- c("INFL", colnames(X.std)[2:19])
+M              <- cor(data)
+corrplot::corrplot(M, order = "AOE", method = "ellipse",
+                   type = "upper", tl.cex = 0.5) 
+```
+
+<img src="README_figs/README-unnamed-chunk-4-1.png" width="672" />
+
+``` r
+# run lm
+formula <- CPIAUCSL ~ UNRATE_l1 + EC_l1 + PRFI_l1 + GDPC1_l1 + HOUST_l1 + USPRIV_l1 + TB3MS_l1 + GS10_l1 + T10Y3MM_l1 +
+  T10YFFM_l1 + M1SL_l1 + MICH_l1 + PPIACO_l1 + DJIA_l1 + NAPMPMI_l1 + NAPMSDI_l1 + OILPRICE_l1 + GASPRICE_l1
+ret.lm1 <- lm(formula = formula,
+                data = infl.data)
+summary(ret.lm1)
+## 
+## Call:
+## lm(formula = formula, data = infl.data)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.072883 -0.009561  0.000992  0.009983  0.055086 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)   
+## (Intercept) -0.1189228  0.0788791  -1.508  0.13462   
+## UNRATE_l1    0.2750190  0.1949427   1.411  0.16124   
+## EC_l1       -0.3418655  0.4007397  -0.853  0.39554   
+## PRFI_l1     -0.0857397  0.0754146  -1.137  0.25814   
+## GDPC1_l1     1.4171099  0.4380447   3.235  0.00162 **
+## HOUST_l1     0.0167668  0.0098992   1.694  0.09325 . 
+## USPRIV_l1   -0.4435282  0.3811955  -1.164  0.24723   
+## TB3MS_l1    -0.1152165  0.1411862  -0.816  0.41630   
+## GS10_l1     -0.0005272  0.0058215  -0.091  0.92802   
+## T10Y3MM_l1  -0.7562681  0.9247730  -0.818  0.41531   
+## T10YFFM_l1   0.4674876  0.8931897   0.523  0.60179   
+## M1SL_l1      0.0123492  0.0151375   0.816  0.41645   
+## MICH_l1      0.2451893  0.4095280   0.599  0.55064   
+## PPIACO_l1    0.0029549  0.0009022   3.275  0.00143 **
+## DJIA_l1      0.0373644  0.0417599   0.895  0.37295   
+## NAPMPMI_l1  -0.0003125  0.0009606  -0.325  0.74562   
+## NAPMSDI_l1  -0.0002199  0.0006791  -0.324  0.74675   
+## OILPRICE_l1  0.0126106  0.0195869   0.644  0.52108   
+## GASPRICE_l1 -0.0302853  0.0135122  -2.241  0.02709 * 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.02167 on 106 degrees of freedom
+## Multiple R-squared:  0.3408, Adjusted R-squared:  0.2288 
+## F-statistic: 3.044 on 18 and 106 DF,  p-value: 0.0001889
+```
+
 ``` r
 library(ggplot2)
 library(gridExtra)

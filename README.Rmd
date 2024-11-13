@@ -1,23 +1,11 @@
 ---
-title: >-
-  fdaSP: An R Package for sparse functional data analysis
-tags:
-  - R
-  - sparse linear regression models
-  - sparse functional-to-scalar regression model
-  - sparse functional-to-functional regression model
-author:
-  - name: Mauro Bernardi
-    orcid: 0000-0001-5759-9892
-    affiliation: 1
-affiliation:
- - name: >-
-     Department of Statistical Sciences,
-     University of Padova, Italy
-   index: 1
-date: 11 November 2024
+title: "fdaSP: An R Package for sparse functional data analysis"
+author: "Mauro Bernardi"
+affiliation: "Department of Statistical Sciences, University of Padova, Italy"  
+date: "`r format(Sys.time(), '%B %d, %Y')`"
 bibliography: REFERENCES.bib
-output: rmarkdown::github_document
+output:
+  rmarkdown::github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -27,10 +15,8 @@ knitr::opts_chunk$set(collapse=TRUE, comment="##", fig.retina=2, fig.path = "REA
 ```
 
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/0.1.0/active.svg)](http://www.repostatus.org/#active) 
-[![Travis-CI Build Status](https://travis-ci.org/hrbrmstr/ggalt.svg?branch=master)](https://travis-ci.org/hrbrmstr/ggalt) 
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hrbrmstr/ggalt?branch=master&svg=true)](https://ci.appveyor.com/project/hrbrmstr/ggalt) 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ggalt)](https://CRAN.R-project.org/package=ggalt) 
-![downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggalt)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/fdaSP)](https://CRAN.R-project.org/package=fdaSP) 
+![downloads](http://cranlogs.r-pkg.org/badges/grand-total/fdaSP)
 
 `fdaSP` : sparse functional data analysis
 

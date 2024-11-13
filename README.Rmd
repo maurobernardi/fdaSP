@@ -60,7 +60,6 @@ library(BMS)
 # you'll want to see the vignettes, trust me
 install.packages("ggplot2")
 install.packages("fdaSP", dependencies = TRUE)
-# OR: devtools::install_github("hrbrmstr/ggalt")
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, error=FALSE}

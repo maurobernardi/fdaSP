@@ -6,15 +6,15 @@ tags:
   - sparse linear regression models
   - sparse functional-to-scalar regression model
   - sparse functional-to-functional regression model
-authors:
+author:
   - name: Mauro Bernardi
     orcid: 0000-0001-5759-9892
     affiliation: 1
-affiliations:
+affiliation:
  - name: >-
      Department of Statistical Sciences,
      University of Padova, Italy
-   index: 2
+   index: 1
 date: 11 November 2024
 bibliography: REFERENCES.bib
 output: rmarkdown::github_document

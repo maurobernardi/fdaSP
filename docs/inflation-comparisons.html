@@ -789,16 +789,16 @@ Adaptive coefficient paths for the two pilots. Dashed and dotted lines mark lamb
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">mcmc=</span><span class="st">"enumerate"</span>,<span class="at">nmodel=</span><span class="dv">100</span>,<span class="at">user.int=</span><span class="cn">FALSE</span>,<span class="at">logfile=</span><span class="cn">FALSE</span>)</span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bma_sample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>## Mean no. regressors               Draws             Burnins                Time 
-##            "5.4872"             "50000"             "10000"     "1.049357 secs" 
+##            "5.3674"             "50000"             "10000"     "1.095494 secs" 
 ##  No. models visited      Modelspace 2^K           % visited         % Topmodels 
-##             "13840"            "262144"               "5.3"                "59" 
+##             "13799"            "262144"               "5.3"                "60" 
 ##            Corr PMP            No. Obs.         Model Prior             g-Prior 
-##            "0.9963"               "125"       "uniform / 9"               "UIP" 
+##            "0.9947"               "125"       "uniform / 9"               "UIP" 
 ##     Shrinkage-Stats 
 ##         "Av=0.9921"</code></pre>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bma_enumeration)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <pre><code>## Mean no. regressors               Draws             Burnins                Time 
-##            "5.3906"            "262144"                 "0"     "4.663496 secs" 
+##            "5.3906"            "262144"                 "0"     "4.960132 secs" 
 ##  No. models visited      Modelspace 2^K           % visited         % Topmodels 
 ##            "262144"            "262144"               "100"             "0.038" 
 ##            Corr PMP            No. Obs.         Model Prior             g-Prior 
@@ -1005,128 +1005,128 @@ Adaptive coefficient paths for the two pilots. Dashed and dotted lines mark lamb
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">UNRATE_l1</td>
-<td style="text-align: right;">0.10842</td>
+<td style="text-align: right;">0.09848</td>
 <td style="text-align: right;">0.10047</td>
-<td style="text-align: right;">0.00021</td>
+<td style="text-align: right;">-0.00101</td>
 <td style="text-align: right;">-0.00025</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">EC_l1</td>
-<td style="text-align: right;">0.83080</td>
+<td style="text-align: right;">0.81932</td>
 <td style="text-align: right;">0.80218</td>
-<td style="text-align: right;">-0.61236</td>
+<td style="text-align: right;">-0.60495</td>
 <td style="text-align: right;">-0.58967</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PRFI_l1</td>
-<td style="text-align: right;">0.09918</td>
+<td style="text-align: right;">0.09520</td>
 <td style="text-align: right;">0.09625</td>
-<td style="text-align: right;">-0.00305</td>
+<td style="text-align: right;">-0.00301</td>
 <td style="text-align: right;">-0.00295</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">GDPC1_l1</td>
-<td style="text-align: right;">0.90834</td>
+<td style="text-align: right;">0.90182</td>
 <td style="text-align: right;">0.89632</td>
-<td style="text-align: right;">1.23829</td>
+<td style="text-align: right;">1.22489</td>
 <td style="text-align: right;">1.21241</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">HOUST_l1</td>
-<td style="text-align: right;">0.19934</td>
+<td style="text-align: right;">0.18288</td>
 <td style="text-align: right;">0.18305</td>
-<td style="text-align: right;">0.00167</td>
+<td style="text-align: right;">0.00150</td>
 <td style="text-align: right;">0.00152</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">USPRIV_l1</td>
-<td style="text-align: right;">0.19498</td>
+<td style="text-align: right;">0.19478</td>
 <td style="text-align: right;">0.20818</td>
-<td style="text-align: right;">-0.06811</td>
+<td style="text-align: right;">-0.06624</td>
 <td style="text-align: right;">-0.07604</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">TB3MS_l1</td>
-<td style="text-align: right;">0.10180</td>
+<td style="text-align: right;">0.10176</td>
 <td style="text-align: right;">0.09990</td>
-<td style="text-align: right;">0.00504</td>
+<td style="text-align: right;">0.00500</td>
 <td style="text-align: right;">0.00490</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">GS10_l1</td>
-<td style="text-align: right;">0.09648</td>
+<td style="text-align: right;">0.08040</td>
 <td style="text-align: right;">0.08465</td>
 <td style="text-align: right;">-0.00004</td>
 <td style="text-align: right;">-0.00004</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">T10Y3MM_l1</td>
-<td style="text-align: right;">0.20678</td>
+<td style="text-align: right;">0.20180</td>
 <td style="text-align: right;">0.20501</td>
-<td style="text-align: right;">-0.06973</td>
+<td style="text-align: right;">-0.06692</td>
 <td style="text-align: right;">-0.07006</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">T10YFFM_l1</td>
-<td style="text-align: right;">0.16120</td>
+<td style="text-align: right;">0.14888</td>
 <td style="text-align: right;">0.15567</td>
-<td style="text-align: right;">-0.00939</td>
+<td style="text-align: right;">-0.00891</td>
 <td style="text-align: right;">-0.00756</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">M1SL_l1</td>
-<td style="text-align: right;">0.14678</td>
+<td style="text-align: right;">0.13514</td>
 <td style="text-align: right;">0.15394</td>
-<td style="text-align: right;">0.00185</td>
+<td style="text-align: right;">0.00171</td>
 <td style="text-align: right;">0.00207</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">MICH_l1</td>
-<td style="text-align: right;">0.12098</td>
+<td style="text-align: right;">0.11478</td>
 <td style="text-align: right;">0.11874</td>
-<td style="text-align: right;">0.03547</td>
+<td style="text-align: right;">0.03428</td>
 <td style="text-align: right;">0.03551</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">PPIACO_l1</td>
-<td style="text-align: right;">0.99700</td>
+<td style="text-align: right;">0.99646</td>
 <td style="text-align: right;">0.99645</td>
-<td style="text-align: right;">0.00331</td>
+<td style="text-align: right;">0.00327</td>
 <td style="text-align: right;">0.00327</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">DJIA_l1</td>
-<td style="text-align: right;">0.14270</td>
+<td style="text-align: right;">0.13996</td>
 <td style="text-align: right;">0.14490</td>
-<td style="text-align: right;">0.00545</td>
+<td style="text-align: right;">0.00547</td>
 <td style="text-align: right;">0.00567</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">NAPMPMI_l1</td>
-<td style="text-align: right;">0.09624</td>
+<td style="text-align: right;">0.11308</td>
 <td style="text-align: right;">0.10487</td>
-<td style="text-align: right;">-0.00004</td>
+<td style="text-align: right;">-0.00005</td>
 <td style="text-align: right;">-0.00005</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">NAPMSDI_l1</td>
-<td style="text-align: right;">0.10590</td>
+<td style="text-align: right;">0.10152</td>
 <td style="text-align: right;">0.09429</td>
 <td style="text-align: right;">-0.00002</td>
 <td style="text-align: right;">-0.00002</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">OILPRICE_l1</td>
-<td style="text-align: right;">0.10624</td>
+<td style="text-align: right;">0.09818</td>
 <td style="text-align: right;">0.10265</td>
-<td style="text-align: right;">0.00081</td>
+<td style="text-align: right;">0.00075</td>
 <td style="text-align: right;">0.00080</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">GASPRICE_l1</td>
-<td style="text-align: right;">0.86406</td>
+<td style="text-align: right;">0.84300</td>
 <td style="text-align: right;">0.84312</td>
-<td style="text-align: right;">-0.02879</td>
+<td style="text-align: right;">-0.02805</td>
 <td style="text-align: right;">-0.02800</td>
 </tr>
 </tbody>

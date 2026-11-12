@@ -1,0 +1,2369 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Inflation: the complete model-comparison workflow – fdaSP</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./assets/unipd-seal.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3aba38651184ee82a9c65464af710223.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./assets/unipd-seal.png" alt="University of Padua seal" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">fdaSP</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Tutorials</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">    
+        <li>
+    <a class="dropdown-item" href="./linear.html">
+ <span class="dropdown-text">Linear regression</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./scalar-function.html">
+ <span class="dropdown-text">Scalar-on-function</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./function-function.html">
+ <span class="dropdown-text">Function-on-function</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-inflation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Inflation</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-inflation">    
+        <li>
+    <a class="dropdown-item" href="./inflation-comparisons.html">
+ <span class="dropdown-text">Complete original analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./inflation.html">
+ <span class="dropdown-text">Chronological validation</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./theory.html"> 
+<span class="menu-text">Theory</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./reference.html"> 
+<span class="menu-text">Function guide</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-data-and-the-scope-of-the-comparison" id="toc-the-data-and-the-scope-of-the-comparison" class="nav-link active" data-scroll-target="#the-data-and-the-scope-of-the-comparison"><span class="header-section-number">1</span> The data and the scope of the comparison</a></li>
+  <li><a href="#preliminary-correlations-and-one-lag-ols" id="toc-preliminary-correlations-and-one-lag-ols" class="nav-link" data-scroll-target="#preliminary-correlations-and-one-lag-ols"><span class="header-section-number">2</span> Preliminary correlations and one-lag OLS</a></li>
+  <li><a href="#lasso-and-elastic-net-with-glmnet" id="toc-lasso-and-elastic-net-with-glmnet" class="nav-link" data-scroll-target="#lasso-and-elastic-net-with-glmnet"><span class="header-section-number">3</span> Lasso and Elastic Net with glmnet</a></li>
+  <li><a href="#exhaustive-best-subset-selection" id="toc-exhaustive-best-subset-selection" class="nav-link" data-scroll-target="#exhaustive-best-subset-selection"><span class="header-section-number">4</span> Exhaustive best-subset selection</a></li>
+  <li><a href="#ridge-and-ols-pilots-for-adaptive-lasso" id="toc-ridge-and-ols-pilots-for-adaptive-lasso" class="nav-link" data-scroll-target="#ridge-and-ols-pilots-for-adaptive-lasso"><span class="header-section-number">5</span> Ridge and OLS pilots for adaptive Lasso</a></li>
+  <li><a href="#bayesian-model-averaging-simulation-and-full-enumeration" id="toc-bayesian-model-averaging-simulation-and-full-enumeration" class="nav-link" data-scroll-target="#bayesian-model-averaging-simulation-and-full-enumeration"><span class="header-section-number">6</span> Bayesian model averaging: simulation and full enumeration</a></li>
+  <li><a href="#extend-the-regression-to-four-lags" id="toc-extend-the-regression-to-four-lags" class="nav-link" data-scroll-target="#extend-the-regression-to-four-lags"><span class="header-section-number">7</span> Extend the regression to four lags</a></li>
+  <li><a href="#the-original-fdasp-fit-and-cross-validation" id="toc-the-original-fdasp-fit-and-cross-validation" class="nav-link" data-scroll-target="#the-original-fdasp-fit-and-cross-validation"><span class="header-section-number">8</span> The original fdaSP fit and cross-validation</a></li>
+  <li><a href="#what-was-clarified-during-restoration" id="toc-what-was-clarified-during-restoration" class="nav-link" data-scroll-target="#what-was-clarified-during-restoration"><span class="header-section-number">9</span> What was clarified during restoration</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Inflation: the complete model-comparison workflow</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- Generato da chapters/inflation-comparisons.Rmd: modificare quel file, poi source("build.R"). -->
+<section id="the-data-and-the-scope-of-the-comparison" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> The data and the scope of the comparison</h1>
+<p>This chapter develops the inflation analysis in the original repository: correlations, ordinary least squares, Lasso and Elastic Net, best-subset selection, adaptive penalties, Bayesian model averaging, and the <code>fdaSP</code> implementation. The one-lag specification uses 18 macroeconomic predictors; the four-lag specification uses all 72 predictor columns.</p>
+<p>These are full-sample model-comparison exercises. Random-fold cross-validation is retained from the original workflow and must not be interpreted as a real-time forecasting assessment. The separate chronological analysis later in this guide uses training, validation and test periods.</p>
+<p>The repository relates the data to the inflation application discussed by <span class="citation" data-cites="bernardi_etal.2024">Bernardi et al. (<a href="#ref-bernardi_etal.2024" role="doc-biblioref">2024</a>)</span>. We retain the supplied transformations rather than reconstructing them from raw economic series. Inspecting the supplied file reveals <strong>125 observations, from July 1991 to July 2022</strong>. The older prose mentioned 2023-Q4, but that endpoint is not present in this data file. The response used below is <code>CPIAUCSL</code>; <code>CPILFESL</code>, mentioned in the old introduction, is not a column in this version of the dataset.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fdaSP)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">vapply</span>(<span class="fu">c</span>(<span class="st">"glmnet"</span>,<span class="st">"leaps"</span>,<span class="st">"BMS"</span>,<span class="st">"corrplot"</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                    requireNamespace,<span class="fu">logical</span>(<span class="dv">1</span>),<span class="at">quietly=</span><span class="cn">TRUE</span>)))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>original_data <span class="ot">&lt;-</span> <span class="fu">new.env</span>()</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"../data/inflation-Q.RData"</span>,<span class="at">envir=</span>original_data)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>inflation <span class="ot">&lt;-</span> original_data<span class="sc">$</span>infl.data</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y_original <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(inflation<span class="sc">$</span>CPIAUCSL)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>lag1_names <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"_l1$"</span>,<span class="fu">names</span>(inflation),<span class="at">value=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>all_lag_names <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"_l[1-4]$"</span>,<span class="fu">names</span>(inflation),<span class="at">value=</span><span class="cn">TRUE</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>X1 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(inflation[,lag1_names])</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>X4 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(inflation[,all_lag_names])</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">ncol</span>(X1)<span class="sc">==</span><span class="dv">18</span>L,<span class="fu">ncol</span>(X4)<span class="sc">==</span><span class="dv">72</span>L,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(<span class="fu">is.finite</span>(X4)),<span class="fu">all</span>(<span class="fu">is.finite</span>(y_original)))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">observations=</span><span class="fu">nrow</span>(inflation),<span class="at">first=</span><span class="fu">min</span>(inflation<span class="sc">$</span>DATE),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">last=</span><span class="fu">max</span>(inflation<span class="sc">$</span>DATE),<span class="at">one_lag=</span><span class="fu">ncol</span>(X1),<span class="at">four_lags=</span><span class="fu">ncol</span>(X4))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##   observations   first    last one_lag four_lags
+## 1          125 1991-07 2022-07      18        72</code></pre>
+<p>All results and figures below are regenerated by the guide. The packages <code>glmnet</code>, <code>leaps</code>, <code>BMS</code> and <code>corrplot</code> are additional dependencies of this application, not additional dependencies imposed on <code>fdaSP</code> itself.</p>
+</section>
+<section id="preliminary-correlations-and-one-lag-ols" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Preliminary correlations and one-lag OLS</h1>
+<p>As in the original example, the correlation plot uses inflation and the first lag of each macroeconomic indicator. Standardization does not change these correlations. Ellipses reveal both their sign and strength.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X1_scaled <span class="ot">&lt;-</span> <span class="fu">scale</span>(X1)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y_original_scaled <span class="ot">&lt;-</span> <span class="fu">drop</span>(<span class="fu">scale</span>(y_original))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>correlation_data <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">INFL=</span>y_original_scaled,X1_scaled)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>correlation_matrix <span class="ot">&lt;-</span> <span class="fu">cor</span>(correlation_data)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>corrplot<span class="sc">::</span><span class="fu">corrplot</span>(correlation_matrix,<span class="at">order=</span><span class="st">"AOE"</span>,<span class="at">method=</span><span class="st">"ellipse"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">type=</span><span class="st">"upper"</span>,<span class="at">tl.cex=</span>.<span class="dv">65</span>,<span class="at">tl.col=</span><span class="st">"#333333"</span>,<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-correlations-1.png" alt="Inflation and the 18 first-lag macroeconomic predictors. Variables are ordered by the angular order of eigenvectors (AOE), as in the original analysis." width="100%">
+<p class="caption">
+Inflation and the 18 first-lag macroeconomic predictors. Variables are ordered by the angular order of eigenvectors (AOE), as in the original analysis.
+</p>
+</div>
+<p>The OLS specification includes an intercept and all 18 first-lag regressors. The summary reproduces the coefficient estimates and conventional standard errors of the original workflow. These standard errors do not correct for serial dependence or subsequent model selection.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>formula1 <span class="ot">&lt;-</span> <span class="fu">reformulate</span>(lag1_names,<span class="at">response=</span><span class="st">"CPIAUCSL"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ols1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(formula1,<span class="at">data=</span>inflation)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ols1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = formula1, data = inflation)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.072883 -0.009561  0.000992  0.009983  0.055086 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)   
+## (Intercept) -0.1189228  0.0788791  -1.508  0.13462   
+## UNRATE_l1    0.2750190  0.1949427   1.411  0.16124   
+## EC_l1       -0.3418655  0.4007397  -0.853  0.39554   
+## PRFI_l1     -0.0857397  0.0754146  -1.137  0.25814   
+## GDPC1_l1     1.4171099  0.4380447   3.235  0.00162 **
+## HOUST_l1     0.0167668  0.0098992   1.694  0.09325 . 
+## USPRIV_l1   -0.4435282  0.3811955  -1.164  0.24723   
+## TB3MS_l1    -0.1152165  0.1411862  -0.816  0.41630   
+## GS10_l1     -0.0005272  0.0058215  -0.091  0.92802   
+## T10Y3MM_l1  -0.7562681  0.9247730  -0.818  0.41531   
+## T10YFFM_l1   0.4674876  0.8931897   0.523  0.60179   
+## M1SL_l1      0.0123492  0.0151375   0.816  0.41645   
+## MICH_l1      0.2451893  0.4095280   0.599  0.55064   
+## PPIACO_l1    0.0029549  0.0009022   3.275  0.00143 **
+## DJIA_l1      0.0373644  0.0417599   0.895  0.37295   
+## NAPMPMI_l1  -0.0003125  0.0009606  -0.325  0.74562   
+## NAPMSDI_l1  -0.0002199  0.0006791  -0.324  0.74675   
+## OILPRICE_l1  0.0126106  0.0195869   0.644  0.52108   
+## GASPRICE_l1 -0.0302853  0.0135122  -2.241  0.02709 * 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.02167 on 106 degrees of freedom
+## Multiple R-squared:  0.3408, Adjusted R-squared:  0.2288 
+## F-statistic: 3.044 on 18 and 106 DF,  p-value: 0.0001889</code></pre>
+</section>
+<section id="lasso-and-elastic-net-with-glmnet" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Lasso and Elastic Net with glmnet</h1>
+<p><code>glmnet</code> computes penalized paths using coordinate descent <span class="citation" data-cites="friedman_etal.2010">(<a href="#ref-friedman_etal.2010" role="doc-biblioref">Friedman, Hastie, and Tibshirani 2010</a>)</span>. We retain the Lasso path and the Elastic Net comparison with mixing parameter <span class="math inline">\(\alpha=0.5\)</span>, and also show Lasso CV explicitly. Both CV fits use the same ten folds. Each refit uses the same predictor set and mixing parameter as the CV fit that selected its tuning parameter.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>folds1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="fu">seq_len</span>(<span class="dv">10</span>),<span class="at">length.out=</span><span class="fu">length</span>(y_original)))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>lasso1 <span class="ot">&lt;-</span> glmnet<span class="sc">::</span><span class="fu">glmnet</span>(X1,y_original,<span class="at">alpha=</span><span class="dv">1</span>,<span class="at">standardize=</span><span class="cn">TRUE</span>,<span class="at">nlambda=</span><span class="dv">100</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>cv_lasso1 <span class="ot">&lt;-</span> glmnet<span class="sc">::</span><span class="fu">cv.glmnet</span>(X1,y_original,<span class="at">alpha=</span><span class="dv">1</span>,<span class="at">standardize=</span><span class="cn">TRUE</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                              <span class="at">nlambda=</span><span class="dv">100</span>,<span class="at">foldid=</span>folds1)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>cv_enet1 <span class="ot">&lt;-</span> glmnet<span class="sc">::</span><span class="fu">cv.glmnet</span>(X1,y_original,<span class="at">alpha=</span>.<span class="dv">5</span>,<span class="at">standardize=</span><span class="cn">TRUE</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">nlambda=</span><span class="dv">100</span>,<span class="at">foldid=</span>folds1)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>enet1_selected <span class="ot">&lt;-</span> glmnet<span class="sc">::</span><span class="fu">glmnet</span>(X1,y_original,<span class="at">alpha=</span>.<span class="dv">5</span>,<span class="at">standardize=</span><span class="cn">TRUE</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">lambda=</span>cv_enet1<span class="sc">$</span>lambda.min)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For plotting, we keep the coefficient paths on their original response scale and display <span class="math inline">\(\lambda\)</span> on a logarithmic axis. The helper below retains predictor names, which are useful when inspecting selected variables.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>glmnet_path_data <span class="ot">&lt;-</span> <span class="cf">function</span>(object,label) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(object<span class="sc">$</span>beta)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">lambda=</span><span class="fu">rep</span>(object<span class="sc">$</span>lambda,<span class="at">each=</span><span class="fu">nrow</span>(b)),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">coefficient=</span><span class="fu">as.vector</span>(b),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">term=</span><span class="fu">rep</span>(<span class="fu">rownames</span>(b),<span class="at">times=</span><span class="fu">ncol</span>(b)),<span class="at">method=</span>label)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>glmnet_cv_data <span class="ot">&lt;-</span> <span class="cf">function</span>(object,label) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">lambda=</span>object<span class="sc">$</span>lambda,<span class="at">mse=</span>object<span class="sc">$</span>cvm,<span class="at">se=</span>object<span class="sc">$</span>cvsd,<span class="at">method=</span>label)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>selected_coefficients <span class="ot">&lt;-</span> <span class="cf">function</span>(object,rule,label) {</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">coef</span>(object,<span class="at">s=</span>rule))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  keep <span class="ot">&lt;-</span> b[,<span class="dv">1</span>]<span class="sc">!=</span><span class="dv">0</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">method=</span>label,<span class="at">rule=</span>rule,<span class="at">term=</span><span class="fu">rownames</span>(b)[keep],</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>             <span class="at">coefficient=</span><span class="fu">as.numeric</span>(b[keep,<span class="dv">1</span>]),<span class="at">row.names=</span><span class="cn">NULL</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">glmnet_path_data</span>(lasso1,<span class="st">"Lasso"</span>),<span class="fu">aes</span>(lambda,coefficient,<span class="at">group=</span>term)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">"#9e1b32"</span>,<span class="at">alpha=</span>.<span class="dv">65</span>) <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">expression</span>(lambda),<span class="at">y=</span><span class="st">"Coefficient"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-lasso-one-path-1.png" alt="One-lag Lasso coefficient paths from glmnet; each line represents one macroeconomic regressor." width="100%">
+<p class="caption">
+One-lag Lasso coefficient paths from glmnet; each line represents one macroeconomic regressor.
+</p>
+</div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>one_cv <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">glmnet_cv_data</span>(cv_lasso1,<span class="st">"Lasso"</span>),</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">glmnet_cv_data</span>(cv_enet1,<span class="st">"Elastic Net"</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>one_cv_choices <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">method=</span><span class="fu">c</span>(<span class="st">"Lasso"</span>,<span class="st">"Elastic Net"</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">lambda=</span><span class="fu">c</span>(cv_lasso1<span class="sc">$</span>lambda.min,cv_enet1<span class="sc">$</span>lambda.min))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(one_cv,<span class="fu">aes</span>(lambda,mse)) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>mse<span class="sc">-</span>se,<span class="at">ymax=</span>mse<span class="sc">+</span>se),<span class="at">fill=</span><span class="st">"#9e1b32"</span>,<span class="at">alpha=</span>.<span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">"#9e1b32"</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">data=</span>one_cv_choices,<span class="fu">aes</span>(<span class="at">xintercept=</span>lambda),<span class="at">linetype=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>method,<span class="at">scales=</span><span class="st">"free_x"</span>) <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">expression</span>(lambda),<span class="at">y=</span><span class="st">"Cross-validated MSE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-one-cv-1.png" alt="Ten-fold CV for one-lag Lasso and Elastic Net. Ribbons show the CV mean plus or minus the standard error returned by glmnet; dashed lines mark lambda.min." width="100%">
+<p class="caption">
+Ten-fold CV for one-lag Lasso and Elastic Net. Ribbons show the CV mean plus or minus the standard error returned by glmnet; dashed lines mark lambda.min.
+</p>
+</div>
+<p><code>lambda.min</code> minimizes the CV error. <code>lambda.1se</code> is the largest candidate within one standard error of that minimum. We name the choice explicitly rather than relying on the default of <code>coef()</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>one_selected <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selected_coefficients</span>(cv_lasso1,<span class="st">"lambda.min"</span>,<span class="st">"Lasso"</span>),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selected_coefficients</span>(cv_lasso1,<span class="st">"lambda.1se"</span>,<span class="st">"Lasso"</span>),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selected_coefficients</span>(cv_enet1,<span class="st">"lambda.min"</span>,<span class="st">"Elastic Net"</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selected_coefficients</span>(cv_enet1,<span class="st">"lambda.1se"</span>,<span class="st">"Elastic Net"</span>))</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(one_selected,<span class="at">digits=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">method</th>
+<th style="text-align: left;">rule</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Lasso</td>
+<td style="text-align: left;">lambda.min</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.02455</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Lasso</td>
+<td style="text-align: left;">lambda.min</td>
+<td style="text-align: left;">PPIACO_l1</td>
+<td style="text-align: right;">0.00079</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lasso</td>
+<td style="text-align: left;">lambda.1se</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.02544</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Elastic Net</td>
+<td style="text-align: left;">lambda.min</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.02471</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Elastic Net</td>
+<td style="text-align: left;">lambda.min</td>
+<td style="text-align: left;">PPIACO_l1</td>
+<td style="text-align: right;">0.00065</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Elastic Net</td>
+<td style="text-align: left;">lambda.1se</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.02544</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">as.matrix</span>(<span class="fu">coef</span>(enet1_selected))<span class="sc">-</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">as.matrix</span>(<span class="fu">coef</span>(cv_enet1,<span class="at">s=</span><span class="st">"lambda.min"</span>))))<span class="sc">&lt;</span><span class="fl">1e-3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="exhaustive-best-subset-selection" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Exhaustive best-subset selection</h1>
+<p>The original best-subset analysis searches models of size one through eight, using the 18 first-lag predictors. This is an exhaustive search <strong>within that size range</strong>, not a search restricted to the first eight variables. The intercept is included in every model.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>subset_fit <span class="ot">&lt;-</span> leaps<span class="sc">::</span><span class="fu">regsubsets</span>(<span class="at">x=</span>X1_scaled,<span class="at">y=</span>y_original_scaled,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">method=</span><span class="st">"exhaustive"</span>,<span class="at">nvmax=</span><span class="dv">8</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>subset_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(subset_fit)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>subset_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## Subset selection object
+## 18 Variables  (and intercept)
+##             Forced in Forced out
+## UNRATE_l1       FALSE      FALSE
+## EC_l1           FALSE      FALSE
+## PRFI_l1         FALSE      FALSE
+## GDPC1_l1        FALSE      FALSE
+## HOUST_l1        FALSE      FALSE
+## USPRIV_l1       FALSE      FALSE
+## TB3MS_l1        FALSE      FALSE
+## GS10_l1         FALSE      FALSE
+## T10Y3MM_l1      FALSE      FALSE
+## T10YFFM_l1      FALSE      FALSE
+## M1SL_l1         FALSE      FALSE
+## MICH_l1         FALSE      FALSE
+## PPIACO_l1       FALSE      FALSE
+## DJIA_l1         FALSE      FALSE
+## NAPMPMI_l1      FALSE      FALSE
+## NAPMSDI_l1      FALSE      FALSE
+## OILPRICE_l1     FALSE      FALSE
+## GASPRICE_l1     FALSE      FALSE
+## 1 subsets of each size up to 8
+## Selection Algorithm: exhaustive
+##          UNRATE_l1 EC_l1 PRFI_l1 GDPC1_l1 HOUST_l1 USPRIV_l1 TB3MS_l1 GS10_l1
+## 1  ( 1 ) " "       " "   " "     " "      " "      " "       " "      " "    
+## 2  ( 1 ) " "       " "   " "     " "      " "      " "       " "      " "    
+## 3  ( 1 ) " "       "*"   " "     "*"      " "      " "       " "      " "    
+## 4  ( 1 ) " "       "*"   " "     "*"      " "      " "       " "      " "    
+## 5  ( 1 ) " "       "*"   " "     "*"      " "      " "       " "      " "    
+## 6  ( 1 ) " "       "*"   " "     "*"      "*"      " "       " "      " "    
+## 7  ( 1 ) " "       "*"   "*"     "*"      "*"      " "       " "      " "    
+## 8  ( 1 ) " "       "*"   "*"     "*"      "*"      " "       " "      " "    
+##          T10Y3MM_l1 T10YFFM_l1 M1SL_l1 MICH_l1 PPIACO_l1 DJIA_l1 NAPMPMI_l1
+## 1  ( 1 ) " "        " "        " "     " "     "*"       " "     " "       
+## 2  ( 1 ) " "        " "        " "     " "     "*"       " "     " "       
+## 3  ( 1 ) " "        " "        " "     " "     "*"       " "     " "       
+## 4  ( 1 ) " "        " "        " "     " "     "*"       " "     " "       
+## 5  ( 1 ) "*"        " "        " "     " "     "*"       " "     " "       
+## 6  ( 1 ) "*"        " "        " "     " "     "*"       " "     " "       
+## 7  ( 1 ) " "        " "        " "     " "     "*"       "*"     " "       
+## 8  ( 1 ) " "        " "        " "     " "     "*"       "*"     "*"       
+##          NAPMSDI_l1 OILPRICE_l1 GASPRICE_l1
+## 1  ( 1 ) " "        " "         " "        
+## 2  ( 1 ) " "        " "         "*"        
+## 3  ( 1 ) " "        " "         " "        
+## 4  ( 1 ) " "        " "         "*"        
+## 5  ( 1 ) " "        " "         "*"        
+## 6  ( 1 ) " "        " "         "*"        
+## 7  ( 1 ) " "        " "         "*"        
+## 8  ( 1 ) " "        " "         "*"</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>subset_criteria <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">size=</span><span class="fu">seq_along</span>(subset_summary<span class="sc">$</span>bic),</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">BIC=</span>subset_summary<span class="sc">$</span>bic,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">Cp=</span>subset_summary<span class="sc">$</span>cp,<span class="at">RSS=</span>subset_summary<span class="sc">$</span>rss)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>best_subset_size <span class="ot">&lt;-</span> <span class="fu">which.min</span>(subset_summary<span class="sc">$</span>bic)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>subset_coefficients <span class="ot">&lt;-</span> <span class="fu">coef</span>(subset_fit,<span class="at">id=</span>best_subset_size)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>subset_terms <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(subset_coefficients),<span class="st">"(Intercept)"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>subset_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">response=</span>y_original_scaled,X1_scaled,<span class="at">check.names=</span><span class="cn">FALSE</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>subset_refit <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">reformulate</span>(subset_terms,<span class="at">response=</span><span class="st">"response"</span>),<span class="at">data=</span>subset_data)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(subset_refit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##   (Intercept)         EC_l1      GDPC1_l1     PPIACO_l1   GASPRICE_l1 
+##  3.912813e-16 -6.958761e-01  6.777184e-01  7.424334e-01 -4.390489e-01</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">coef</span>(subset_refit)[<span class="fu">names</span>(subset_coefficients)]<span class="sc">-</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                   subset_coefficients))<span class="sc">&lt;</span><span class="fl">1e-7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>subset_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">size=</span><span class="fu">rep</span>(subset_criteria<span class="sc">$</span>size,<span class="dv">3</span>),</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a> <span class="at">value=</span><span class="fu">c</span>(subset_criteria<span class="sc">$</span>BIC,subset_criteria<span class="sc">$</span>Cp,subset_criteria<span class="sc">$</span>RSS),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a> <span class="at">criterion=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"BIC"</span>,<span class="st">"Mallows' Cp"</span>,<span class="st">"RSS"</span>),<span class="at">each=</span><span class="fu">nrow</span>(subset_criteria)))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(subset_plot,<span class="fu">aes</span>(size,value)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">"#9e1b32"</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>criterion,<span class="at">scales=</span><span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Number of regressors"</span>,<span class="at">y=</span><span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-subset-criteria-1.png" alt="BIC, Mallows' Cp and residual sum of squares for the best subset at each size. Separate vertical scales avoid comparing unlike criteria numerically." width="100%">
+<p class="caption">
+BIC, Mallows’ Cp and residual sum of squares for the best subset at each size. Separate vertical scales avoid comparing unlike criteria numerically.
+</p>
+</div>
+<p>The selected subset contains <strong>4 regressors</strong>. These coefficients are on standardized scales, unlike the raw-scale OLS table above. The comparison is descriptive: neither the subset search nor its printed OLS standard errors account automatically for selection uncertainty.</p>
+</section>
+<section id="ridge-and-ols-pilots-for-adaptive-lasso" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Ridge and OLS pilots for adaptive Lasso</h1>
+<p>We restore both pilot constructions. The original code computed ridge and OLS weights but used only the OLS weights in its adaptive-Lasso fit; here both are fitted and displayed. A small explicit floor prevents division by zero when constructing inverse absolute-value weights.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>folds_adaptive <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="fu">seq_len</span>(<span class="dv">10</span>),<span class="at">length.out=</span><span class="fu">length</span>(y_original)))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>cv_ridge1 <span class="ot">&lt;-</span> glmnet<span class="sc">::</span><span class="fu">cv.glmnet</span>(X1,y_original,<span class="at">alpha=</span><span class="dv">0</span>,<span class="at">standardize=</span><span class="cn">TRUE</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">foldid=</span>folds_adaptive,<span class="at">type.measure=</span><span class="st">"mse"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>cv_ridge1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## 
+## Call:  glmnet::cv.glmnet(x = X1, y = y_original, type.measure = "mse",      foldid = folds_adaptive, alpha = 0, standardize = TRUE) 
+## 
+## Measure: Mean-Squared Error 
+## 
+##     Lambda Index   Measure        SE Nonzero
+## min  0.170    44 0.0006057 0.0001089      18
+## 1se  9.259     1 0.0006167 0.0001174      18</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ridge_pilot <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">coef</span>(cv_ridge1,<span class="at">s=</span><span class="st">"lambda.min"</span>))[<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>]</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>ols_pilot <span class="ot">&lt;-</span> <span class="fu">coef</span>(ols1)[<span class="fu">colnames</span>(X1)]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>weight_floor <span class="ot">&lt;-</span> <span class="fl">1e-8</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>ridge_weights <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">pmax</span>(<span class="fu">abs</span>(ridge_pilot),weight_floor)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>ols_weights <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">pmax</span>(<span class="fu">abs</span>(ols_pilot),weight_floor)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>pilot_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">term=</span><span class="fu">colnames</span>(X1),<span class="at">ridge=</span>ridge_pilot,<span class="at">OLS=</span>ols_pilot,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ridge_weight=</span>ridge_weights,<span class="at">OLS_weight=</span>ols_weights)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(pilot_table,<span class="at">digits=</span><span class="dv">5</span>,<span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">ridge</th>
+<th style="text-align: right;">OLS</th>
+<th style="text-align: right;">ridge_weight</th>
+<th style="text-align: right;">OLS_weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">UNRATE_l1</td>
+<td style="text-align: right;">-0.00464</td>
+<td style="text-align: right;">0.27502</td>
+<td style="text-align: right;">215.38004</td>
+<td style="text-align: right;">3.63611</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EC_l1</td>
+<td style="text-align: right;">-0.00213</td>
+<td style="text-align: right;">-0.34187</td>
+<td style="text-align: right;">470.08553</td>
+<td style="text-align: right;">2.92513</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PRFI_l1</td>
+<td style="text-align: right;">0.00335</td>
+<td style="text-align: right;">-0.08574</td>
+<td style="text-align: right;">298.56300</td>
+<td style="text-align: right;">11.66321</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GDPC1_l1</td>
+<td style="text-align: right;">0.03447</td>
+<td style="text-align: right;">1.41711</td>
+<td style="text-align: right;">29.00936</td>
+<td style="text-align: right;">0.70566</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HOUST_l1</td>
+<td style="text-align: right;">0.00152</td>
+<td style="text-align: right;">0.01677</td>
+<td style="text-align: right;">659.85959</td>
+<td style="text-align: right;">59.64177</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">USPRIV_l1</td>
+<td style="text-align: right;">-0.00594</td>
+<td style="text-align: right;">-0.44353</td>
+<td style="text-align: right;">168.33408</td>
+<td style="text-align: right;">2.25465</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TB3MS_l1</td>
+<td style="text-align: right;">0.00391</td>
+<td style="text-align: right;">-0.11522</td>
+<td style="text-align: right;">255.65726</td>
+<td style="text-align: right;">8.67931</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GS10_l1</td>
+<td style="text-align: right;">0.00032</td>
+<td style="text-align: right;">-0.00053</td>
+<td style="text-align: right;">3125.98328</td>
+<td style="text-align: right;">1896.94585</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">T10Y3MM_l1</td>
+<td style="text-align: right;">-0.02310</td>
+<td style="text-align: right;">-0.75627</td>
+<td style="text-align: right;">43.28138</td>
+<td style="text-align: right;">1.32228</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">T10YFFM_l1</td>
+<td style="text-align: right;">-0.01681</td>
+<td style="text-align: right;">0.46749</td>
+<td style="text-align: right;">59.48810</td>
+<td style="text-align: right;">2.13909</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">M1SL_l1</td>
+<td style="text-align: right;">-0.00020</td>
+<td style="text-align: right;">0.01235</td>
+<td style="text-align: right;">4930.11479</td>
+<td style="text-align: right;">80.97719</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MICH_l1</td>
+<td style="text-align: right;">0.09890</td>
+<td style="text-align: right;">0.24519</td>
+<td style="text-align: right;">10.11097</td>
+<td style="text-align: right;">4.07848</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PPIACO_l1</td>
+<td style="text-align: right;">0.00020</td>
+<td style="text-align: right;">0.00295</td>
+<td style="text-align: right;">4981.31878</td>
+<td style="text-align: right;">338.41853</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DJIA_l1</td>
+<td style="text-align: right;">0.00862</td>
+<td style="text-align: right;">0.03736</td>
+<td style="text-align: right;">116.04012</td>
+<td style="text-align: right;">26.76343</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NAPMPMI_l1</td>
+<td style="text-align: right;">0.00003</td>
+<td style="text-align: right;">-0.00031</td>
+<td style="text-align: right;">33884.13136</td>
+<td style="text-align: right;">3200.50282</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NAPMSDI_l1</td>
+<td style="text-align: right;">0.00003</td>
+<td style="text-align: right;">-0.00022</td>
+<td style="text-align: right;">30596.32843</td>
+<td style="text-align: right;">4547.79910</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OILPRICE_l1</td>
+<td style="text-align: right;">0.00198</td>
+<td style="text-align: right;">0.01261</td>
+<td style="text-align: right;">505.45799</td>
+<td style="text-align: right;">79.29836</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GASPRICE_l1</td>
+<td style="text-align: right;">0.00133</td>
+<td style="text-align: right;">-0.03029</td>
+<td style="text-align: right;">751.93915</td>
+<td style="text-align: right;">33.01928</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>cv_adaptive_ols <span class="ot">&lt;-</span> glmnet<span class="sc">::</span><span class="fu">cv.glmnet</span>(X1,y_original,<span class="at">alpha=</span><span class="dv">1</span>,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardize=</span><span class="cn">TRUE</span>,<span class="at">foldid=</span>folds_adaptive,<span class="at">type.measure=</span><span class="st">"mse"</span>,<span class="at">penalty.factor=</span>ols_weights)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>cv_adaptive_ridge <span class="ot">&lt;-</span> glmnet<span class="sc">::</span><span class="fu">cv.glmnet</span>(X1,y_original,<span class="at">alpha=</span><span class="dv">1</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardize=</span><span class="cn">TRUE</span>,<span class="at">foldid=</span>folds_adaptive,<span class="at">type.measure=</span><span class="st">"mse"</span>,<span class="at">penalty.factor=</span>ridge_weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>These CV curves retain the original <strong>fixed full-sample pilot</strong> workflow: the pilots are not recomputed inside validation folds. Consequently they compare penalties conditional on those estimated weights, rather than providing leakage-free validation of the complete adaptive procedure. <code>glmnet</code> also rescales <code>penalty.factor</code> internally, so raw tuning values should not be equated with tuning values from a different solver without aligning its normalization.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>adaptive_cv_plot <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">glmnet_cv_data</span>(cv_adaptive_ols,<span class="st">"OLS pilot"</span>),</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">glmnet_cv_data</span>(cv_adaptive_ridge,<span class="st">"Ridge pilot"</span>))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(adaptive_cv_plot,<span class="fu">aes</span>(lambda,mse)) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>mse<span class="sc">-</span>se,<span class="at">ymax=</span>mse<span class="sc">+</span>se),<span class="at">fill=</span><span class="st">"#9e1b32"</span>,<span class="at">alpha=</span>.<span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">"#9e1b32"</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>method,<span class="at">scales=</span><span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">expression</span>(lambda),<span class="at">y=</span><span class="st">"Cross-validated MSE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-adaptive-cv-1.png" alt="CV curves for adaptive Lasso using OLS and ridge pilots, with full-sample weights held fixed throughout CV." width="100%">
+<p class="caption">
+CV curves for adaptive Lasso using OLS and ridge pilots, with full-sample weights held fixed throughout CV.
+</p>
+</div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>adaptive_paths <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">glmnet_path_data</span>(cv_adaptive_ols<span class="sc">$</span>glmnet.fit,<span class="st">"OLS pilot"</span>),</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">glmnet_path_data</span>(cv_adaptive_ridge<span class="sc">$</span>glmnet.fit,<span class="st">"Ridge pilot"</span>))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>adaptive_choices <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">method=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"OLS pilot"</span>,<span class="st">"Ridge pilot"</span>),<span class="at">each=</span><span class="dv">2</span>),</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a> <span class="at">rule=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"lambda.min"</span>,<span class="st">"lambda.1se"</span>),<span class="dv">2</span>),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a> <span class="at">lambda=</span><span class="fu">c</span>(cv_adaptive_ols<span class="sc">$</span>lambda.min,cv_adaptive_ols<span class="sc">$</span>lambda<span class="fl">.1</span>se,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>          cv_adaptive_ridge<span class="sc">$</span>lambda.min,cv_adaptive_ridge<span class="sc">$</span>lambda<span class="fl">.1</span>se))</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(adaptive_paths,<span class="fu">aes</span>(lambda,coefficient,<span class="at">group=</span>term)) <span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">"#9e1b32"</span>,<span class="at">alpha=</span>.<span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_vline</span>(<span class="at">data=</span>adaptive_choices,<span class="fu">aes</span>(<span class="at">xintercept=</span>lambda,<span class="at">linetype=</span>rule),<span class="at">inherit.aes=</span><span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_linetype_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"lambda.min"</span><span class="ot">=</span><span class="st">"dashed"</span>,<span class="st">"lambda.1se"</span><span class="ot">=</span><span class="st">"dotted"</span>)) <span class="sc">+</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a> <span class="fu">facet_wrap</span>(<span class="sc">~</span>method,<span class="at">scales=</span><span class="st">"free_x"</span>) <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">expression</span>(lambda),<span class="at">y=</span><span class="st">"Coefficient"</span>,<span class="at">linetype=</span><span class="st">"CV rule"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-adaptive-path-1.png" alt="Adaptive coefficient paths for the two pilots. Dashed and dotted lines mark lambda.min and lambda.1se, respectively." width="100%">
+<p class="caption">
+Adaptive coefficient paths for the two pilots. Dashed and dotted lines mark lambda.min and lambda.1se, respectively.
+</p>
+</div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>adaptive_selected <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">selected_coefficients</span>(cv_adaptive_ols,<span class="st">"lambda.1se"</span>,<span class="st">"OLS pilot"</span>),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">selected_coefficients</span>(cv_adaptive_ridge,<span class="st">"lambda.1se"</span>,<span class="st">"Ridge pilot"</span>))</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(adaptive_selected,<span class="at">digits=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">method</th>
+<th style="text-align: left;">rule</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">OLS pilot</td>
+<td style="text-align: left;">lambda.1se</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.02544</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ridge pilot</td>
+<td style="text-align: left;">lambda.1se</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.02544</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="bayesian-model-averaging-simulation-and-full-enumeration" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Bayesian model averaging: simulation and full enumeration</h1>
+<p>We restore both BMS analyses: reversible-jump model sampling and enumeration of all <span class="math inline">\(2^{18}=262{,}144\)</span> subsets. Both use a uniform prior over models and the same unit-information prior (<code>g="UIP"</code>). The sampled run uses 10,000 burn-in iterations followed by 50,000 iterations, matching the original settings <span class="citation" data-cites="zeugner_feldkircher.2015">(<a href="#ref-zeugner_feldkircher.2015" role="doc-biblioref">Zeugner and Feldkircher 2015</a>)</span>.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>BMS_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">response=</span>y_original,X1,<span class="at">check.names=</span><span class="cn">FALSE</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">417</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>bma_sample <span class="ot">&lt;-</span> BMS<span class="sc">::</span><span class="fu">bms</span>(BMS_data,<span class="at">burn=</span><span class="dv">10000</span>,<span class="at">iter=</span><span class="dv">50000</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mprior=</span><span class="st">"uniform"</span>,<span class="at">g=</span><span class="st">"UIP"</span>,<span class="at">mcmc=</span><span class="st">"rev.jump"</span>,<span class="at">nmodel=</span><span class="dv">100</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">user.int=</span><span class="cn">FALSE</span>,<span class="at">logfile=</span><span class="cn">FALSE</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>bma_enumeration <span class="ot">&lt;-</span> BMS<span class="sc">::</span><span class="fu">bms</span>(BMS_data,<span class="at">mprior=</span><span class="st">"uniform"</span>,<span class="at">g=</span><span class="st">"UIP"</span>,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">mcmc=</span><span class="st">"enumerate"</span>,<span class="at">nmodel=</span><span class="dv">100</span>,<span class="at">user.int=</span><span class="cn">FALSE</span>,<span class="at">logfile=</span><span class="cn">FALSE</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bma_sample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## Mean no. regressors               Draws             Burnins                Time 
+##            "5.4872"             "50000"             "10000"     "1.049357 secs" 
+##  No. models visited      Modelspace 2^K           % visited         % Topmodels 
+##             "13840"            "262144"               "5.3"                "59" 
+##            Corr PMP            No. Obs.         Model Prior             g-Prior 
+##            "0.9963"               "125"       "uniform / 9"               "UIP" 
+##     Shrinkage-Stats 
+##         "Av=0.9921"</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bma_enumeration)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## Mean no. regressors               Draws             Burnins                Time 
+##            "5.3906"            "262144"                 "0"     "4.663496 secs" 
+##  No. models visited      Modelspace 2^K           % visited         % Topmodels 
+##            "262144"            "262144"               "100"             "0.038" 
+##            Corr PMP            No. Obs.         Model Prior             g-Prior 
+##                "NA"               "125"       "uniform / 9"               "UIP" 
+##     Shrinkage-Stats 
+##         "Av=0.9921"</code></pre>
+<p>The original comment referred to the 100 best models, while the code retained only ten. We now retain 100 explicitly. Three quantities must be distinguished: MCMC-frequency summaries, full-enumeration summaries, and summaries restricted to the retained best models. In BMS, <code>exact=TRUE</code> uses the marginal-likelihood weights of those retained models; it does not automatically mean averaging over the entire model space.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>bma_sample_coef <span class="ot">&lt;-</span> <span class="fu">coef</span>(bma_sample,<span class="at">exact=</span><span class="cn">FALSE</span>,<span class="at">order.by.pip=</span><span class="cn">FALSE</span>,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">include.constant=</span><span class="cn">FALSE</span>,<span class="at">std.coefs=</span><span class="cn">FALSE</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>bma_full_coef <span class="ot">&lt;-</span> <span class="fu">coef</span>(bma_enumeration,<span class="at">exact=</span><span class="cn">FALSE</span>,<span class="at">order.by.pip=</span><span class="cn">FALSE</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">include.constant=</span><span class="cn">FALSE</span>,<span class="at">std.coefs=</span><span class="cn">FALSE</span>)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>bma_top100_coef <span class="ot">&lt;-</span> <span class="fu">coef</span>(bma_sample,<span class="at">exact=</span><span class="cn">TRUE</span>,<span class="at">order.by.pip=</span><span class="cn">FALSE</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">include.constant=</span><span class="cn">TRUE</span>,<span class="at">std.coefs=</span><span class="cn">FALSE</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(bma_top100_coef,<span class="at">digits=</span><span class="dv">5</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a> <span class="at">caption=</span><span class="st">"Posterior coefficient summaries restricted to the 100 best retained models, including the intercept."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<caption>Posterior coefficient summaries restricted to the 100 best retained models, including the intercept.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">PIP</th>
+<th style="text-align: right;">Post Mean</th>
+<th style="text-align: right;">Post SD</th>
+<th style="text-align: right;">Cond.Pos.Sign</th>
+<th style="text-align: right;">Idx</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">UNRATE_l1</td>
+<td style="text-align: right;">0.05179</td>
+<td style="text-align: right;">-0.00322</td>
+<td style="text-align: right;">0.03094</td>
+<td style="text-align: right;">0.19814</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EC_l1</td>
+<td style="text-align: right;">0.90379</td>
+<td style="text-align: right;">-0.68434</td>
+<td style="text-align: right;">0.29728</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PRFI_l1</td>
+<td style="text-align: right;">0.04443</td>
+<td style="text-align: right;">-0.00153</td>
+<td style="text-align: right;">0.01413</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GDPC1_l1</td>
+<td style="text-align: right;">0.96643</td>
+<td style="text-align: right;">1.34077</td>
+<td style="text-align: right;">0.45575</td>
+<td style="text-align: right;">1.00000</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HOUST_l1</td>
+<td style="text-align: right;">0.13673</td>
+<td style="text-align: right;">0.00109</td>
+<td style="text-align: right;">0.00349</td>
+<td style="text-align: right;">1.00000</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">USPRIV_l1</td>
+<td style="text-align: right;">0.12428</td>
+<td style="text-align: right;">-0.04722</td>
+<td style="text-align: right;">0.16812</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TB3MS_l1</td>
+<td style="text-align: right;">0.05749</td>
+<td style="text-align: right;">0.00411</td>
+<td style="text-align: right;">0.02994</td>
+<td style="text-align: right;">1.00000</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GS10_l1</td>
+<td style="text-align: right;">0.03052</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">0.00081</td>
+<td style="text-align: right;">0.33776</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">T10Y3MM_l1</td>
+<td style="text-align: right;">0.17266</td>
+<td style="text-align: right;">-0.05061</td>
+<td style="text-align: right;">0.16110</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">T10YFFM_l1</td>
+<td style="text-align: right;">0.12616</td>
+<td style="text-align: right;">-0.01865</td>
+<td style="text-align: right;">0.12729</td>
+<td style="text-align: right;">0.07040</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">M1SL_l1</td>
+<td style="text-align: right;">0.08661</td>
+<td style="text-align: right;">0.00142</td>
+<td style="text-align: right;">0.00637</td>
+<td style="text-align: right;">0.93213</td>
+<td style="text-align: right;">11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MICH_l1</td>
+<td style="text-align: right;">0.05908</td>
+<td style="text-align: right;">0.01486</td>
+<td style="text-align: right;">0.09867</td>
+<td style="text-align: right;">1.00000</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PPIACO_l1</td>
+<td style="text-align: right;">1.00000</td>
+<td style="text-align: right;">0.00345</td>
+<td style="text-align: right;">0.00085</td>
+<td style="text-align: right;">1.00000</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DJIA_l1</td>
+<td style="text-align: right;">0.08502</td>
+<td style="text-align: right;">0.00302</td>
+<td style="text-align: right;">0.01404</td>
+<td style="text-align: right;">1.00000</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NAPMPMI_l1</td>
+<td style="text-align: right;">0.05950</td>
+<td style="text-align: right;">-0.00003</td>
+<td style="text-align: right;">0.00021</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NAPMSDI_l1</td>
+<td style="text-align: right;">0.04617</td>
+<td style="text-align: right;">-0.00001</td>
+<td style="text-align: right;">0.00012</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">16</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OILPRICE_l1</td>
+<td style="text-align: right;">0.05475</td>
+<td style="text-align: right;">0.00062</td>
+<td style="text-align: right;">0.00506</td>
+<td style="text-align: right;">0.95420</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GASPRICE_l1</td>
+<td style="text-align: right;">0.92546</td>
+<td style="text-align: right;">-0.03106</td>
+<td style="text-align: right;">0.01401</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">1.00000</td>
+<td style="text-align: right;">0.01142</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>bma_comparison <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">term=</span><span class="fu">rownames</span>(bma_full_coef),</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a> <span class="at">PIP_sample=</span>bma_sample_coef[,<span class="st">"PIP"</span>],<span class="at">PIP_enumeration=</span>bma_full_coef[,<span class="st">"PIP"</span>],</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a> <span class="at">mean_sample=</span>bma_sample_coef[,<span class="st">"Post Mean"</span>],<span class="at">mean_enumeration=</span>bma_full_coef[,<span class="st">"Post Mean"</span>])</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(bma_comparison,<span class="at">digits=</span><span class="dv">5</span>,<span class="at">row.names=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 16%">
+<col style="width: 23%">
+<col style="width: 17%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">PIP_sample</th>
+<th style="text-align: right;">PIP_enumeration</th>
+<th style="text-align: right;">mean_sample</th>
+<th style="text-align: right;">mean_enumeration</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">UNRATE_l1</td>
+<td style="text-align: right;">0.10842</td>
+<td style="text-align: right;">0.10047</td>
+<td style="text-align: right;">0.00021</td>
+<td style="text-align: right;">-0.00025</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EC_l1</td>
+<td style="text-align: right;">0.83080</td>
+<td style="text-align: right;">0.80218</td>
+<td style="text-align: right;">-0.61236</td>
+<td style="text-align: right;">-0.58967</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PRFI_l1</td>
+<td style="text-align: right;">0.09918</td>
+<td style="text-align: right;">0.09625</td>
+<td style="text-align: right;">-0.00305</td>
+<td style="text-align: right;">-0.00295</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GDPC1_l1</td>
+<td style="text-align: right;">0.90834</td>
+<td style="text-align: right;">0.89632</td>
+<td style="text-align: right;">1.23829</td>
+<td style="text-align: right;">1.21241</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HOUST_l1</td>
+<td style="text-align: right;">0.19934</td>
+<td style="text-align: right;">0.18305</td>
+<td style="text-align: right;">0.00167</td>
+<td style="text-align: right;">0.00152</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">USPRIV_l1</td>
+<td style="text-align: right;">0.19498</td>
+<td style="text-align: right;">0.20818</td>
+<td style="text-align: right;">-0.06811</td>
+<td style="text-align: right;">-0.07604</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TB3MS_l1</td>
+<td style="text-align: right;">0.10180</td>
+<td style="text-align: right;">0.09990</td>
+<td style="text-align: right;">0.00504</td>
+<td style="text-align: right;">0.00490</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GS10_l1</td>
+<td style="text-align: right;">0.09648</td>
+<td style="text-align: right;">0.08465</td>
+<td style="text-align: right;">-0.00004</td>
+<td style="text-align: right;">-0.00004</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">T10Y3MM_l1</td>
+<td style="text-align: right;">0.20678</td>
+<td style="text-align: right;">0.20501</td>
+<td style="text-align: right;">-0.06973</td>
+<td style="text-align: right;">-0.07006</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">T10YFFM_l1</td>
+<td style="text-align: right;">0.16120</td>
+<td style="text-align: right;">0.15567</td>
+<td style="text-align: right;">-0.00939</td>
+<td style="text-align: right;">-0.00756</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">M1SL_l1</td>
+<td style="text-align: right;">0.14678</td>
+<td style="text-align: right;">0.15394</td>
+<td style="text-align: right;">0.00185</td>
+<td style="text-align: right;">0.00207</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MICH_l1</td>
+<td style="text-align: right;">0.12098</td>
+<td style="text-align: right;">0.11874</td>
+<td style="text-align: right;">0.03547</td>
+<td style="text-align: right;">0.03551</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PPIACO_l1</td>
+<td style="text-align: right;">0.99700</td>
+<td style="text-align: right;">0.99645</td>
+<td style="text-align: right;">0.00331</td>
+<td style="text-align: right;">0.00327</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DJIA_l1</td>
+<td style="text-align: right;">0.14270</td>
+<td style="text-align: right;">0.14490</td>
+<td style="text-align: right;">0.00545</td>
+<td style="text-align: right;">0.00567</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NAPMPMI_l1</td>
+<td style="text-align: right;">0.09624</td>
+<td style="text-align: right;">0.10487</td>
+<td style="text-align: right;">-0.00004</td>
+<td style="text-align: right;">-0.00005</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NAPMSDI_l1</td>
+<td style="text-align: right;">0.10590</td>
+<td style="text-align: right;">0.09429</td>
+<td style="text-align: right;">-0.00002</td>
+<td style="text-align: right;">-0.00002</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OILPRICE_l1</td>
+<td style="text-align: right;">0.10624</td>
+<td style="text-align: right;">0.10265</td>
+<td style="text-align: right;">0.00081</td>
+<td style="text-align: right;">0.00080</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GASPRICE_l1</td>
+<td style="text-align: right;">0.86406</td>
+<td style="text-align: right;">0.84312</td>
+<td style="text-align: right;">-0.02879</td>
+<td style="text-align: right;">-0.02800</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pip_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">term=</span><span class="fu">rep</span>(bma_comparison<span class="sc">$</span>term,<span class="dv">2</span>),</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a> <span class="at">PIP=</span><span class="fu">c</span>(bma_comparison<span class="sc">$</span>PIP_sample,bma_comparison<span class="sc">$</span>PIP_enumeration),</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a> <span class="at">method=</span><span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">"Model sampling"</span>,<span class="st">"Full enumeration"</span>),<span class="at">each=</span><span class="fu">nrow</span>(bma_comparison)))</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(pip_plot,<span class="fu">aes</span>(PIP,<span class="fu">reorder</span>(term,PIP),<span class="at">colour=</span>method)) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>(<span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width=</span>.<span class="dv">45</span>),<span class="at">size=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Posterior inclusion probability"</span>,<span class="at">y=</span><span class="cn">NULL</span>,<span class="at">colour=</span><span class="cn">NULL</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-bma-pip-1.png" alt="Posterior inclusion probabilities from the sampled run and full enumeration of the one-lag model space. A single sampled run is a comparison, not a convergence guarantee." width="100%">
+<p class="caption">
+Posterior inclusion probabilities from the sampled run and full enumeration of the one-lag model space. A single sampled run is a comparison, not a convergence guarantee.
+</p>
+</div>
+<p>The next tables recover the original inspection of the best models using the public <code>topmodels.bma()</code> accessor. The indicator rows show which regressors enter each model. The last row reports relative posterior weights normalized over the 100 retained models, of which eight are displayed. These conditional weights must not be interpreted as posterior probabilities over all 262,144 models. Full-model-space inclusion probabilities are reported above.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>retained_model_table <span class="ot">&lt;-</span> <span class="cf">function</span>(fit, <span class="at">n=</span><span class="dv">8</span>L) {</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  tab <span class="ot">&lt;-</span> BMS<span class="sc">::</span><span class="fu">topmodels.bma</span>(fit)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  weights <span class="ot">&lt;-</span> tab[<span class="st">"PMP (Exact)"</span>, ]</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">is.finite</span>(weights)), <span class="fu">all</span>(weights <span class="sc">&gt;=</span> <span class="dv">0</span>), <span class="fu">sum</span>(weights) <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  weights <span class="ot">&lt;-</span> weights <span class="sc">/</span> <span class="fu">sum</span>(weights)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">rbind</span>(tab[fit<span class="sc">$</span>reg.names, , <span class="at">drop=</span><span class="cn">FALSE</span>],</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Posterior weight conditional on retained models"</span><span class="ot">=</span>weights)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  out[, <span class="fu">seq_len</span>(<span class="fu">min</span>(n,<span class="fu">ncol</span>(out))), drop<span class="ot">=</span><span class="cn">FALSE</span>]</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>top_sample <span class="ot">&lt;-</span> <span class="fu">retained_model_table</span>(bma_sample)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>top_enumeration <span class="ot">&lt;-</span> <span class="fu">retained_model_table</span>(bma_enumeration)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(top_sample,<span class="at">digits=</span><span class="dv">4</span>,<span class="at">caption=</span><span class="st">"Eight best retained models from the sampled run; weights are conditional on the 100 retained models."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<caption>Eight best retained models from the sampled run; weights are conditional on the 100 retained models.</caption>
+<colgroup>
+<col style="width: 47%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">14021</th>
+<th style="text-align: right;">14221</th>
+<th style="text-align: right;">16021</th>
+<th style="text-align: right;">14121</th>
+<th style="text-align: right;">14031</th>
+<th style="text-align: right;">14821</th>
+<th style="text-align: right;">34021</th>
+<th style="text-align: right;">14029</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">UNRATE_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EC_l1</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PRFI_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GDPC1_l1</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HOUST_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">USPRIV_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TB3MS_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GS10_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">T10Y3MM_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">T10YFFM_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">M1SL_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MICH_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PPIACO_l1</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DJIA_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NAPMPMI_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NAPMSDI_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OILPRICE_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GASPRICE_l1</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Posterior weight conditional on retained models</td>
+<td style="text-align: right;">0.1774</td>
+<td style="text-align: right;">0.066</td>
+<td style="text-align: right;">0.0482</td>
+<td style="text-align: right;">0.0467</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0.0254</td>
+<td style="text-align: right;">0.0232</td>
+<td style="text-align: right;">0.0228</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(top_enumeration,<span class="at">digits=</span><span class="dv">4</span>,<span class="at">caption=</span><span class="st">"Eight best models from enumeration; weights are conditional on the 100 retained models."</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<caption>Eight best models from enumeration; weights are conditional on the 100 retained models.</caption>
+<colgroup>
+<col style="width: 47%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">14021</th>
+<th style="text-align: right;">14221</th>
+<th style="text-align: right;">16021</th>
+<th style="text-align: right;">14121</th>
+<th style="text-align: right;">14031</th>
+<th style="text-align: right;">14821</th>
+<th style="text-align: right;">34021</th>
+<th style="text-align: right;">14029</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">UNRATE_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EC_l1</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PRFI_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GDPC1_l1</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">HOUST_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">USPRIV_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TB3MS_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GS10_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">T10Y3MM_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">T10YFFM_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">M1SL_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MICH_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PPIACO_l1</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DJIA_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NAPMPMI_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NAPMSDI_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OILPRICE_l1</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+<td style="text-align: right;">0.0000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">GASPRICE_l1</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+<td style="text-align: right;">1.0000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Posterior weight conditional on retained models</td>
+<td style="text-align: right;">0.1774</td>
+<td style="text-align: right;">0.066</td>
+<td style="text-align: right;">0.0482</td>
+<td style="text-align: right;">0.0467</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">0.0254</td>
+<td style="text-align: right;">0.0232</td>
+<td style="text-align: right;">0.0228</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="extend-the-regression-to-four-lags" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Extend the regression to four lags</h1>
+<p>The four-lag OLS model includes all 72 macroeconomic predictor columns. These are lags of the macroeconomic indicators; no lagged inflation regressor is added by this code. The larger model has fewer residual degrees of freedom, which makes its in-sample fit a poor substitute for a prediction assessment.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>formula4 <span class="ot">&lt;-</span> <span class="fu">reformulate</span>(all_lag_names,<span class="at">response=</span><span class="st">"CPIAUCSL"</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>ols4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(formula4,<span class="at">data=</span>inflation)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ols4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = formula4, data = inflation)
+## 
+## Residuals:
+##       Min        1Q    Median        3Q       Max 
+## -0.037671 -0.008337  0.000313  0.007581  0.034534 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -2.990e-02  1.103e-01  -0.271 0.787445    
+## UNRATE_l1    2.235e+00  1.399e+00   1.598 0.116176    
+## EC_l1       -9.678e-01  7.169e-01  -1.350 0.182876    
+## PRFI_l1     -3.207e-02  1.376e-01  -0.233 0.816658    
+## GDPC1_l1     1.619e+00  5.422e-01   2.985 0.004314 ** 
+## HOUST_l1    -3.572e-02  4.074e-02  -0.877 0.384667    
+## USPRIV_l1    1.733e+00  1.319e+00   1.314 0.194529    
+## TB3MS_l1     5.613e+01  3.490e+01   1.609 0.113767    
+## GS10_l1     -5.456e-01  3.361e-01  -1.623 0.110582    
+## T10Y3MM_l1   5.336e+01  3.405e+01   1.567 0.123114    
+## T10YFFM_l1   1.343e+00  2.523e+00   0.532 0.596653    
+## M1SL_l1      6.834e-02  1.031e-01   0.663 0.510388    
+## MICH_l1     -7.531e-01  8.151e-01  -0.924 0.359771    
+## PPIACO_l1    4.894e-03  1.294e-03   3.781 0.000404 ***
+## DJIA_l1      2.863e-03  5.818e-02   0.049 0.960936    
+## NAPMPMI_l1  -1.881e-03  1.427e-03  -1.318 0.193226    
+## NAPMSDI_l1   4.556e-04  1.128e-03   0.404 0.687902    
+## OILPRICE_l1  5.085e-02  2.305e-02   2.206 0.031823 *  
+## GASPRICE_l1 -6.678e-02  1.874e-02  -3.564 0.000792 ***
+## UNRATE_l2   -2.293e+00  1.647e+00  -1.393 0.169655    
+## EC_l2        5.375e-01  8.446e-01   0.636 0.527308    
+## PRFI_l2     -2.928e-02  1.352e-01  -0.217 0.829407    
+## GDPC1_l2    -8.193e-01  8.217e-01  -0.997 0.323354    
+## HOUST_l2     1.964e-03  4.514e-02   0.044 0.965461    
+## USPRIV_l2    2.456e+00  1.438e+00   1.708 0.093516 .  
+## TB3MS_l2    -4.215e+01  4.748e+01  -0.888 0.378741    
+## GS10_l2     -1.257e-01  3.193e-01  -0.394 0.695470    
+## T10Y3MM_l2  -3.854e+01  4.625e+01  -0.833 0.408538    
+## T10YFFM_l2  -4.452e+00  3.075e+00  -1.448 0.153642    
+## M1SL_l2     -6.424e-02  8.639e-02  -0.744 0.460502    
+## MICH_l2     -1.326e+00  1.015e+00  -1.307 0.196974    
+## PPIACO_l2    5.541e-04  1.766e-03   0.314 0.754930    
+## DJIA_l2     -6.371e-02  5.669e-02  -1.124 0.266199    
+## NAPMPMI_l2   8.482e-04  1.430e-03   0.593 0.555718    
+## NAPMSDI_l2  -4.627e-04  1.081e-03  -0.428 0.670499    
+## OILPRICE_l2  1.480e-02  2.674e-02   0.553 0.582407    
+## GASPRICE_l2 -3.235e-02  2.215e-02  -1.461 0.150137    
+## UNRATE_l3   -1.582e+00  1.695e+00  -0.933 0.355093    
+## EC_l3        4.059e-01  6.939e-01   0.585 0.561082    
+## PRFI_l3     -1.557e-01  1.348e-01  -1.155 0.253333    
+## GDPC1_l3    -2.629e-01  7.612e-01  -0.345 0.731216    
+## HOUST_l3     5.394e-02  3.991e-02   1.351 0.182431    
+## USPRIV_l3   -8.248e-01  1.281e+00  -0.644 0.522462    
+## TB3MS_l3    -4.095e+01  4.323e+01  -0.947 0.347873    
+## GS10_l3      2.336e-01  3.552e-01   0.658 0.513635    
+## T10Y3MM_l3  -4.129e+01  4.225e+01  -0.977 0.332951    
+## T10YFFM_l3   5.944e+00  3.361e+00   1.769 0.082822 .  
+## M1SL_l3      1.142e-01  7.568e-02   1.510 0.137183    
+## MICH_l3      3.291e-01  1.036e+00   0.318 0.751947    
+## PPIACO_l3    4.183e-03  1.424e-03   2.938 0.004915 ** 
+## DJIA_l3      3.978e-02  5.969e-02   0.666 0.508052    
+## NAPMPMI_l3   2.298e-03  1.683e-03   1.366 0.177875    
+## NAPMSDI_l3  -1.826e-03  9.654e-04  -1.892 0.064126 .  
+## OILPRICE_l3  5.928e-03  2.835e-02   0.209 0.835197    
+## GASPRICE_l3 -5.716e-02  2.060e-02  -2.774 0.007675 ** 
+## UNRATE_l4    2.086e+00  1.233e+00   1.691 0.096743 .  
+## EC_l4        1.715e+00  8.200e-01   2.092 0.041349 *  
+## PRFI_l4      2.133e-01  1.372e-01   1.555 0.126011    
+## GDPC1_l4    -3.358e-01  8.412e-01  -0.399 0.691396    
+## HOUST_l4    -1.432e-02  3.681e-02  -0.389 0.698801    
+## USPRIV_l4   -5.803e-01  8.055e-01  -0.720 0.474511    
+## TB3MS_l4     2.701e+01  3.704e+01   0.729 0.469089    
+## GS10_l4      1.314e-02  7.989e-03   1.644 0.106120    
+## T10Y3MM_l4   2.323e+01  3.625e+01   0.641 0.524513    
+## T10YFFM_l4  -1.537e-02  1.933e+00  -0.008 0.993685    
+## M1SL_l4      4.621e-02  2.851e-02   1.621 0.111081    
+## MICH_l4      9.441e-01  9.988e-01   0.945 0.348906    
+## PPIACO_l4    5.351e-04  1.407e-03   0.380 0.705165    
+## DJIA_l4      7.636e-03  5.785e-02   0.132 0.895494    
+## NAPMPMI_l4  -7.789e-04  1.526e-03  -0.510 0.611994    
+## NAPMSDI_l4  -1.425e-03  8.924e-04  -1.597 0.116232    
+## OILPRICE_l4  2.735e-02  2.371e-02   1.154 0.253955    
+## GASPRICE_l4 -4.151e-02  1.902e-02  -2.183 0.033581 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.01863 on 52 degrees of freedom
+## Multiple R-squared:  0.7611, Adjusted R-squared:  0.4304 
+## F-statistic: 2.301 on 72 and 52 DF,  p-value: 0.0009658</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>ols_comparison <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">model=</span><span class="fu">c</span>(<span class="st">"One lag"</span>,<span class="st">"Four lags"</span>),</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a> <span class="at">regressors=</span><span class="fu">c</span>(<span class="fu">ncol</span>(X1),<span class="fu">ncol</span>(X4)),<span class="at">residual_df=</span><span class="fu">c</span>(<span class="fu">df.residual</span>(ols1),<span class="fu">df.residual</span>(ols4)),</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a> <span class="at">training_MSE=</span><span class="fu">c</span>(<span class="fu">mean</span>(<span class="fu">residuals</span>(ols1)<span class="sc">^</span><span class="dv">2</span>),<span class="fu">mean</span>(<span class="fu">residuals</span>(ols4)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a> <span class="at">adjusted_R2=</span><span class="fu">c</span>(<span class="fu">summary</span>(ols1)<span class="sc">$</span>adj.r.squared,<span class="fu">summary</span>(ols4)<span class="sc">$</span>adj.r.squared))</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(ols_comparison,<span class="at">digits=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">model</th>
+<th style="text-align: right;">regressors</th>
+<th style="text-align: right;">residual_df</th>
+<th style="text-align: right;">training_MSE</th>
+<th style="text-align: right;">adjusted_R2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">One lag</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">106</td>
+<td style="text-align: right;">0.00040</td>
+<td style="text-align: right;">0.22881</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Four lags</td>
+<td style="text-align: right;">72</td>
+<td style="text-align: right;">52</td>
+<td style="text-align: right;">0.00014</td>
+<td style="text-align: right;">0.43038</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>lasso4 <span class="ot">&lt;-</span> glmnet<span class="sc">::</span><span class="fu">glmnet</span>(X4,y_original,<span class="at">alpha=</span><span class="dv">1</span>,<span class="at">standardize=</span><span class="cn">TRUE</span>,<span class="at">nlambda=</span><span class="dv">100</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>cv_enet4 <span class="ot">&lt;-</span> glmnet<span class="sc">::</span><span class="fu">cv.glmnet</span>(X4,y_original,<span class="at">alpha=</span>.<span class="dv">5</span>,<span class="at">standardize=</span><span class="cn">TRUE</span>,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">nlambda=</span><span class="dv">100</span>,<span class="at">foldid=</span>folds1)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>enet4_selected <span class="ot">&lt;-</span> glmnet<span class="sc">::</span><span class="fu">glmnet</span>(X4,y_original,<span class="at">alpha=</span>.<span class="dv">5</span>,<span class="at">standardize=</span><span class="cn">TRUE</span>,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">lambda=</span>cv_enet4<span class="sc">$</span>lambda.min)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(enet4_selected)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## 73 x 1 sparse Matrix of class "dgCMatrix"
+##                      s0
+## (Intercept) 0.025047600
+## UNRATE_l1   .          
+## EC_l1       .          
+## PRFI_l1     .          
+## GDPC1_l1    .          
+## HOUST_l1    .          
+## USPRIV_l1   .          
+## TB3MS_l1    .          
+## GS10_l1     .          
+## T10Y3MM_l1  .          
+## T10YFFM_l1  .          
+## M1SL_l1     .          
+## MICH_l1     .          
+## PPIACO_l1   0.000351257
+## DJIA_l1     .          
+## NAPMPMI_l1  .          
+## NAPMSDI_l1  .          
+## OILPRICE_l1 .          
+## GASPRICE_l1 .          
+## UNRATE_l2   .          
+## EC_l2       .          
+## PRFI_l2     .          
+## GDPC1_l2    .          
+## HOUST_l2    .          
+## USPRIV_l2   .          
+## TB3MS_l2    .          
+## GS10_l2     .          
+## T10Y3MM_l2  .          
+## T10YFFM_l2  .          
+## M1SL_l2     .          
+## MICH_l2     .          
+## PPIACO_l2   .          
+## DJIA_l2     .          
+## NAPMPMI_l2  .          
+## NAPMSDI_l2  .          
+## OILPRICE_l2 .          
+## GASPRICE_l2 .          
+## UNRATE_l3   .          
+## EC_l3       .          
+## PRFI_l3     .          
+## GDPC1_l3    .          
+## HOUST_l3    .          
+## USPRIV_l3   .          
+## TB3MS_l3    .          
+## GS10_l3     .          
+## T10Y3MM_l3  .          
+## T10YFFM_l3  .          
+## M1SL_l3     .          
+## MICH_l3     .          
+## PPIACO_l3   .          
+## DJIA_l3     .          
+## NAPMPMI_l3  .          
+## NAPMSDI_l3  .          
+## OILPRICE_l3 .          
+## GASPRICE_l3 .          
+## UNRATE_l4   .          
+## EC_l4       .          
+## PRFI_l4     .          
+## GDPC1_l4    .          
+## HOUST_l4    .          
+## USPRIV_l4   .          
+## TB3MS_l4    .          
+## GS10_l4     .          
+## T10Y3MM_l4  .          
+## T10YFFM_l4  .          
+## M1SL_l4     .          
+## MICH_l4     .          
+## PPIACO_l4   .          
+## DJIA_l4     .          
+## NAPMPMI_l4  .          
+## NAPMSDI_l4  .          
+## OILPRICE_l4 .          
+## GASPRICE_l4 .</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">selected_coefficients</span>(cv_enet4,<span class="st">"lambda.1se"</span>,<span class="st">"Four-lag Elastic Net"</span>),<span class="at">digits=</span><span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">method</th>
+<th style="text-align: left;">rule</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">coefficient</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Four-lag Elastic Net</td>
+<td style="text-align: left;">lambda.1se</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.02544</td>
+</tr>
+</tbody>
+</table>
+<p>The four-lag fit, plot and coefficient extraction all refer to <code>cv_enet4</code>; they do not reuse the one-lag CV object. The Lasso path is shown separately because it has <span class="math inline">\(\alpha=1\)</span>, while the selected Elastic Net has <span class="math inline">\(\alpha=0.5\)</span>.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">glmnet_path_data</span>(lasso4,<span class="st">"Four lags"</span>),<span class="fu">aes</span>(lambda,coefficient,<span class="at">group=</span>term)) <span class="sc">+</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">"#9e1b32"</span>,<span class="at">alpha=</span>.<span class="dv">5</span>) <span class="sc">+</span> <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">expression</span>(lambda),<span class="at">y=</span><span class="st">"Coefficient"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-four-lag-path-1.png" alt="Four-lag Lasso path on the 72-predictor design." width="100%">
+<p class="caption">
+Four-lag Lasso path on the 72-predictor design.
+</p>
+</div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">glmnet_cv_data</span>(cv_enet4,<span class="st">"Four lags"</span>),<span class="fu">aes</span>(lambda,mse)) <span class="sc">+</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>mse<span class="sc">-</span>se,<span class="at">ymax=</span>mse<span class="sc">+</span>se),<span class="at">fill=</span><span class="st">"#9e1b32"</span>,<span class="at">alpha=</span>.<span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">"#9e1b32"</span>) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span>cv_enet4<span class="sc">$</span>lambda.min,<span class="at">linetype=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">expression</span>(lambda),<span class="at">y=</span><span class="st">"Cross-validated MSE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-four-lag-cv-1.png" alt="Ten-fold CV for the four-lag Elastic Net. The ribbon is one glmnet standard error; the dashed line marks lambda.min." width="100%">
+<p class="caption">
+Ten-fold CV for the four-lag Elastic Net. The ribbon is one glmnet standard error; the dashed line marks lambda.min.
+</p>
+</div>
+</section>
+<section id="the-original-fdasp-fit-and-cross-validation" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> The original fdaSP fit and cross-validation</h1>
+<p>We now reproduce the <code>fdaSP</code> portion on the full four-lag design, preserving its automatic standardization and five-fold CV. The exported <code>fdaSP::lmSP_cv</code> replaces the unnecessary triple-colon call. We use the CV grid again for the full path so that the selected value can be located without ambiguity.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>original_control <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">adaptation=</span><span class="cn">TRUE</span>,<span class="at">rho=</span><span class="dv">1</span>,<span class="at">maxit=</span><span class="dv">3000</span>,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">reltol=</span><span class="fl">1e-4</span>,<span class="at">abstol=</span><span class="fl">1e-4</span>,<span class="at">mu.ada=</span><span class="dv">10</span>,<span class="at">tau.ada=</span><span class="dv">2</span>,<span class="at">print.out=</span><span class="cn">FALSE</span>)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">418</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>original_fdasp_cv <span class="ot">&lt;-</span> fdaSP<span class="sc">::</span><span class="fu">lmSP_cv</span>(<span class="at">X=</span>X4,<span class="at">y=</span>y_original,<span class="at">penalty=</span><span class="st">"LASSO"</span>,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardize.data=</span><span class="cn">TRUE</span>,<span class="at">intercept=</span><span class="cn">FALSE</span>,<span class="at">cv.fold=</span><span class="dv">5</span>,<span class="at">nlambda=</span><span class="dv">30</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control=</span>original_control)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>original_fdasp_path <span class="ot">&lt;-</span> fdaSP<span class="sc">::</span><span class="fu">lmSP</span>(<span class="at">X=</span>X4,<span class="at">y=</span>y_original,<span class="at">penalty=</span><span class="st">"LASSO"</span>,</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardize.data=</span><span class="cn">TRUE</span>,<span class="at">intercept=</span><span class="cn">FALSE</span>,<span class="at">lambda=</span>original_fdasp_cv<span class="sc">$</span>lambda,</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">control=</span>original_control)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(original_fdasp_path<span class="sc">$</span>convergence<span class="sc">==</span><span class="dv">1</span>),</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(original_fdasp_cv<span class="sc">$</span>convergence<span class="sc">==</span><span class="dv">1</span>),</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(<span class="fu">is.finite</span>(original_fdasp_path<span class="sc">$</span>sp.coef.path)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>mse.sd</code> component is the standard deviation of fold MSEs in this implementation, not the standard error returned by <code>glmnet</code>. We retain the original mean-plus/minus-<code>mse.sd</code> band but label it accordingly. It is not a confidence band for the prediction function. The different preprocessing, folds and loss conventions also prevent a direct ranking based solely on the numerical CV values printed by the two packages.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>fdasp_cv_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">lambda=</span>original_fdasp_cv<span class="sc">$</span>lambda,</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a> <span class="at">mse=</span><span class="fu">as.numeric</span>(original_fdasp_cv<span class="sc">$</span>mse),<span class="at">sd=</span><span class="fu">as.numeric</span>(original_fdasp_cv<span class="sc">$</span>mse.sd))</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fdasp_cv_plot,<span class="fu">aes</span>(lambda,mse)) <span class="sc">+</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>mse<span class="sc">-</span>sd,<span class="at">ymax=</span>mse<span class="sc">+</span>sd),<span class="at">fill=</span><span class="st">"#9e1b32"</span>,<span class="at">alpha=</span>.<span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">"#9e1b32"</span>) <span class="sc">+</span> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span>original_fdasp_cv<span class="sc">$</span>lambda.min,<span class="at">linetype=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">expression</span>(lambda),<span class="at">y=</span><span class="st">"Cross-validated MSE (package scale)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-fdasp-cv-plot-1.png" alt="Original fdaSP workflow: five-fold CV error plus or minus one fold-error standard deviation, with the selected lambda marked." width="100%">
+<p class="caption">
+Original fdaSP workflow: five-fold CV error plus or minus one fold-error standard deviation, with the selected lambda marked.
+</p>
+</div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>fdasp_coefficients <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(original_fdasp_path<span class="sc">$</span>sp.coef.path)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>fdasp_original_path_plot <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a> <span class="at">lambda=</span><span class="fu">rep</span>(original_fdasp_path<span class="sc">$</span>lambda,<span class="fu">ncol</span>(fdasp_coefficients)),</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a> <span class="at">coefficient=</span><span class="fu">as.vector</span>(fdasp_coefficients),</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a> <span class="at">term=</span><span class="fu">rep</span>(<span class="fu">colnames</span>(X4),<span class="at">each=</span><span class="fu">nrow</span>(fdasp_coefficients)))</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(fdasp_original_path_plot,<span class="fu">aes</span>(lambda,coefficient,<span class="at">group=</span>term)) <span class="sc">+</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_line</span>(<span class="at">colour=</span><span class="st">"#9e1b32"</span>,<span class="at">alpha=</span>.<span class="dv">55</span>) <span class="sc">+</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_vline</span>(<span class="at">xintercept=</span>original_fdasp_cv<span class="sc">$</span>lambda.min,<span class="at">linetype=</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a> <span class="fu">scale_x_log10</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="fu">expression</span>(lambda),<span class="at">y=</span><span class="st">"Coefficient"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="figure" style="text-align: center">
+<img src="fdasp-guide_files/figure-html/original-fdasp-path-1.png" alt="The fdaSP coefficient path from the original four-lag example, evaluated on the same lambda grid as its CV fit." width="100%">
+<p class="caption">
+The fdaSP coefficient path from the original four-lag example, evaluated on the same lambda grid as its CV fit.
+</p>
+</div>
+</section>
+<section id="what-was-clarified-during-restoration" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> What was clarified during restoration</h1>
+<p>All substantive analyses in the original R Markdown are represented above. The main corrections are consistent use of one- versus four-lag designs, matching <span class="math inline">\(\alpha\)</span> between CV and refitting, explicit <code>lambda.min</code> versus <code>lambda.1se</code>, and the distinction between the two packages’ uncertainty bands. The supplied data determine the reported date range. Ridge-pilot adaptive Lasso is shown in addition to the original OLS-pilot fit, and the BMS retained model count is aligned with the original comment about 100 models.</p>
+<p>The old <strong>“Real estate dataset”</strong> heading had no data, code or results beneath it. No real-estate application is invented here. The original source remains unchanged in <code>archive/original-README.Rmd</code>; the chronological analysis in the next chapter is an addition to this restored workflow.</p>
+</section>
+<section id="references" class="level1 unnumbered">
+
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-bernardi_etal.2024" class="csl-entry" role="listitem">
+Bernardi, Mauro, Roberto Casarin, Bertrand Maillet, and Lea Petrella. 2024. <span>“Bayesian Dynamic Quantile Model Averaging.”</span> <a href="https://arxiv.org/abs/1602.00856">https://arxiv.org/abs/1602.00856</a>.
+</div>
+<div id="ref-friedman_etal.2010" class="csl-entry" role="listitem">
+Friedman, Jerome, Trevor Hastie, and Robert Tibshirani. 2010. <span>“Regularization Paths for Generalized Linear Models via Coordinate Descent.”</span> <em>Journal of Statistical Software</em> 33 (1): 1–22. <a href="https://doi.org/10.18637/jss.v033.i01">https://doi.org/10.18637/jss.v033.i01</a>.
+</div>
+<div id="ref-zeugner_feldkircher.2015" class="csl-entry" role="listitem">
+Zeugner, Stefan, and Martin Feldkircher. 2015. <span>“Bayesian Model Averaging Employing Fixed and Flexible Priors: The <span>BMS</span> Package for <span>R</span>.”</span> <em>Journal of Statistical Software</em> 68 (4): 1–37. <a href="https://doi.org/10.18637/jss.v068.i04">https://doi.org/10.18637/jss.v068.i04</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>fdaSP · Sparse Functional Data Analysis Methods</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Worked examples · Version 1.1.3</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
